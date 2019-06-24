@@ -26,6 +26,7 @@ class System extends ApiCommon
             parent::_initialize();
         }
         $userInfo = $this->userInfo;
+
         //权限判断
         $unAction = ['index'];
         $adminTypes = adminGroupTypes($userInfo['id']);
@@ -37,7 +38,7 @@ class System extends ApiCommon
 
     //信息列表
     public function index()
-    {   
+    {
         $systemModel = model('System');
         $data = $systemModel->getDataList();
         return resultArray(['data' => $data]);

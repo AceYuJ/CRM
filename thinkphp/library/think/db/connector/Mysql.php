@@ -31,6 +31,7 @@ class Mysql extends Connection
      */
     protected function parseDsn($config)
     {
+
         if (!empty($config['socket'])) {
             $dsn = 'mysql:unix_socket=' . $config['socket'];
         } elseif (!empty($config['hostport'])) {
@@ -43,6 +44,7 @@ class Mysql extends Connection
         if (!empty($config['charset'])) {
             $dsn .= ';charset=' . $config['charset'];
         }
+
         return $dsn;
     }
 

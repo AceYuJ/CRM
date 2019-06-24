@@ -74,11 +74,13 @@ class Db
      */
     public static function connect($config = [], $name = false)
     {
+
         if (false === $name) {
             $name = md5(serialize($config));
         }
 
         if (true === $name || !isset(self::$instance[$name])) {
+
             // 解析连接参数 支持数组和字符串
             $options = self::parseConfig($config);
 
@@ -87,8 +89,8 @@ class Db
             }
 
             $class = false !== strpos($options['type'], '\\') ?
-            $options['type'] :
-            '\\think\\db\\connector\\' . ucwords($options['type']);
+                $options['type'] :
+                '\\think\\db\\connector\\' . ucwords($options['type']);
 
             // 记录初始化信息
             if (App::$debug) {

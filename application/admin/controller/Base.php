@@ -7,6 +7,9 @@
 
 namespace app\admin\controller;
 
+use app\admin\model\Register;
+use app\admin\model\User;
+use app\CheckCompany;
 use com\verify\HonrayVerify;
 use app\common\controller\Common;
 use think\Request;
@@ -24,13 +27,38 @@ class Base extends Common
         $isRemember = !empty($param['isRemember'])? $param['isRemember']: '';
         $is_mobile = $param['is_mobile'] ? : '';
         $data = $userModel->login($username, $password, $verifyCode, $isRemember, $type, $authKey, $is_mobile);
-        
+
         Session::set('user_id', $data['userInfo']['id']);
         if (!$data) {
             return resultArray(['error' => $userModel->getError()]);
         }
         return resultArray(['data' => $data]);
-    }     
+    }
+
+    /*
+     * 公司注册
+     */
+    public function register()
+    {
+        if(request()->isPost()) {
+            $param = $this->param;
+            $res = User::verifyRegister($param);
+            if ($res) {
+                return json(array('status' => 1, 'msg' => $res));
+
+            }
+            $userModel = model('User');
+            $data = $userModel->increase($param);
+            if($data){
+//                return resultArray(['data' => $data]);
+                return json(array('status'=>0,'msg'=>'注册成功','data'=>$data));
+            }else{
+                return resultArray(['error' => $userModel->getError()]);
+//                return json(array('status'=>1,'msg'=>'注册失败'));
+            }
+         }
+
+    }
 
     //退出登录
     public function logout()
@@ -69,7 +97,7 @@ class Base extends Common
         if (Request::instance()->isOptions()) {
             return ;
         } else {
-            echo '悟空软件';
+            echo '蓝云科技';
         }
     }
 }

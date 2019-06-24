@@ -27,6 +27,8 @@ return [
     'admin/users/ceshi' => ['admin/users/ceshi', ['method' => 'POST']],
 	// 【基础】登录
 	'admin/base/login' => ['admin/base/login', ['method' => 'POST']],
+    // 【基础】注册
+    'admin/base/register' => ['admin/base/register', ['method' => 'POST']],
 	// 【基础】短信验证码登录
 	'admin/base/smslogin' => ['admin/base/smslogin', ['method' => 'POST']],	
 	// 【基础】记住登录
@@ -69,7 +71,7 @@ return [
 	// 【用户】列表
 	'admin/users/index' => ['admin/users/index', ['method' => 'POST']],	
 	'admin/users/read' => ['admin/users/read', ['method' => 'POST']],	
-	// 【用户】创建
+	// 【用户】【新建员工】创建
 	'admin/users/save' => ['admin/users/save', ['method' => 'POST']],		
 	// 【用户】编辑
 	'admin/users/update' => ['admin/users/update', ['method' => 'POST']],
@@ -184,8 +186,11 @@ return [
 	// 【审批流程】自选审批人列表
 	'admin/examine_flow/userList' => ['admin/examine_flow/userList', ['method' => 'POST']],	
 	// 【审批流程】审批记录
-	'admin/examine_flow/recordList' => ['admin/examine_flow/recordList', ['method' => 'POST']],					
-	
-	// MISS路由
+	'admin/examine_flow/recordList' => ['admin/examine_flow/recordList', ['method' => 'POST']],
+
+    // 【安装数据库】安装数据库
+    'admin/install/index' => ['admin/install/index', ['method' => 'POST']],
+
+    // MISS路由
 	'__miss__'  => 'admin/base/miss',
 ];

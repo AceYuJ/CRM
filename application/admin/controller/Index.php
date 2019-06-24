@@ -91,8 +91,10 @@ class Index extends ApiCommon
             $ruleMap['status'] = 1;     
         }
         $newRuleIds = [];
+
         // 重新设置ruleIds，除去部分已删除或禁用的权限。
         $rules = Db::name('admin_rule')->where($ruleMap)->order('types asc')->select();
+
         foreach ($rules as $k => $v) {
             $newRuleIds[] = $v['id'];
             $rules[$k]['name'] = strtolower($v['name']);

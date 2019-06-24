@@ -18,6 +18,7 @@ class ApiCommon extends Common
     public function _initialize()
     {
         parent::_initialize();
+
         /*获取头部信息*/ 
         $header = Request::instance()->header();
         

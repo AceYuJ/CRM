@@ -1188,6 +1188,7 @@ function sign_required($is_null, $name){
 function adminGroupTypes($user_id)
 {
     $userModel = new UserModel();
+
     $groupsArr = $userModel->get($user_id)->groups;
     $groupids = [];
     if ($groupsArr) {

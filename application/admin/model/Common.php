@@ -10,32 +10,32 @@ namespace app\admin\model;
 use think\Model;
 use think\Request;
 
-class Common extends Model 
+class Common extends Model
 {
-	/**
-	 * [Request 请求参数]
-	 * @Michael_xu
-	 * @return    [array]                       
-	 */	
-	protected function requestData()
-	{
-		$m = strtolower(request()->module());
-		$c = strtolower(request()->controller());
-		$a = strtolower(request()->action());
-		$ret = [
-			'm' => $m,
-			'c' => $c,
-			'a' => $a
-		];
-		return $ret;	
-	}
+    /**
+     * [Request 请求参数]
+     * @Michael_xu
+     * @return    [array]
+     */
+    protected function requestData()
+    {
+        $m = strtolower(request()->module());
+        $c = strtolower(request()->controller());
+        $a = strtolower(request()->action());
+        $ret = [
+            'm' => $m,
+            'c' => $c,
+            'a' => $a
+        ];
+        return $ret;
+    }
 
-	/**
-	 * [fmtRequest 格式化请求参数]
-	 * @Michael_xu
-	 * @param     [array]      $request [参数]
-	 * @return    [array]                       
-	 */
+    /**
+     * [fmtRequest 格式化请求参数]
+     * @Michael_xu
+     * @param     [array]      $request [参数]
+     * @return    [array]
+     */
     protected function fmtRequest( $request = [] )
     {
         $pageType = $request['pageType'] ? 'all' : ''; //all全部（不分页）
@@ -50,9 +50,9 @@ class Common extends Model
             unset($request['limit']);
         }
         if ($pageType == 'all') {
-        	$page = 0;
-        	$limit = 0;
-        	unset($request['pageType']);
+            $page = 0;
+            $limit = 0;
+            unset($request['pageType']);
         }
         $ret = [
             'page'=>$page,
@@ -61,12 +61,12 @@ class Common extends Model
         ];
         return $ret;
     }
-	
-	/**
-	 * [getDataById 根据主键获取详情]
-	 * @param     string                   $id [主键]
-	 * @return    [array]                       
-	 */
+
+    /**
+     * [getDataById 根据主键获取详情]
+     * @param     string                   $id [主键]
+     * @return    [array]
+     */
 //	public function getDataById($id = '')
 //	{
 //		$data = $this->get($id);
@@ -77,11 +77,11 @@ class Common extends Model
 //		return $data;
 //	}
 
-	/**
-	 * [createData 新建]
-	 * @param     array                    $param [description]
-	 * @return    [array]                         [description]
-	 */
+    /**
+     * [createData 新建]
+     * @param     array                    $param [description]
+     * @return    [array]                         [description]
+     */
 //	public function createData($param)
 //	{
 //		// 验证
@@ -99,12 +99,12 @@ class Common extends Model
 //		}
 //	}
 
-	/**
-	 * [updateDataById 编辑]
-	 * @param     [type]                   $param [description]
-	 * @param     [type]                   $id    [description]
-	 * @return    [type]                          [description]
-	 */
+    /**
+     * [updateDataById 编辑]
+     * @param     [type]                   $param [description]
+     * @param     [type]                   $id    [description]
+     * @return    [type]                          [description]
+     */
 //	public function updateDataById($param, $id)
 //	{
 //		$checkData = $this->get($id);
@@ -129,12 +129,12 @@ class Common extends Model
 //		}
 //	}
 
-	/**
-	 * [delDataById 根据id删除数据]
-	 * @param     string                   $id     [主键]
-	 * @param     boolean                  $delSon [是否删除子孙数据]
-	 * @return    [type]                           [description]
-	 */
+    /**
+     * [delDataById 根据id删除数据]
+     * @param     string                   $id     [主键]
+     * @param     boolean                  $delSon [是否删除子孙数据]
+     * @return    [type]                           [description]
+     */
 //	public function delDataById($id = '', $delSon = false)
 //	{
 //		if (!$id) {
@@ -160,12 +160,12 @@ class Common extends Model
 //		}
 //	}
 
-	/**
-	 * [delDatas 批量删除数据]
-	 * @param     array                   $ids    [主键数组]
-	 * @param     boolean                 $delSon [是否删除子孙数据]
-	 * @return    [type]                          [description]
-	 */
+    /**
+     * [delDatas 批量删除数据]
+     * @param     array                   $ids    [主键数组]
+     * @param     boolean                 $delSon [是否删除子孙数据]
+     * @return    [type]                          [description]
+     */
 //	public function delDatas($ids = [], $delSon = false)
 //	{
 //		if (empty($ids)) {
@@ -193,13 +193,13 @@ class Common extends Model
 //
 //	}
 
-	/**
-	 * [enableDatas 批量启用、禁用]
-	 * @param     string                   $ids    [主键数组]
-	 * @param     integer                  $status [状态1启用0禁用]
-	 * @param     [boolean]                $delSon [是否删除子孙数组]
-	 * @return    [type]                           [description]
-	 */
+    /**
+     * [enableDatas 批量启用、禁用]
+     * @param     string                   $ids    [主键数组]
+     * @param     integer                  $status [状态1启用0禁用]
+     * @param     [boolean]                $delSon [是否删除子孙数组]
+     * @return    [type]                           [description]
+     */
 //	public function enableDatas($ids = [], $status = 1, $delSon = false)
 //	{
 //		if (empty($ids)) {
@@ -224,26 +224,26 @@ class Common extends Model
 //		}
 //	}
 
-	/**
-	 * 获取所有子孙
-	 */
-	public function getAllChild($id, &$data = [])
-	{
-		$map['pid'] = $id;
-		$childIds = $this->where($map)->column($this->getPk());
-		if (!empty($childIds)) {
-			foreach ($childIds as $v) {
-				$data[] = $v;
-				$this->getAllChild($v, $data);
-			}
-		}
-		return $data;
-	}
+    /**
+     * 获取所有子孙
+     */
+    public function getAllChild($id, &$data = [])
+    {
+        $map['pid'] = $id;
+        $childIds = $this->where($map)->column($this->getPk());
+        if (!empty($childIds)) {
+            foreach ($childIds as $v) {
+                $data[] = $v;
+                $this->getAllChild($v, $data);
+            }
+        }
+        return $data;
+    }
 
-	/**
-	 * 逻辑删除,将数据标记为删除状态
-	 * @author Michael_xu
-	 */	
+    /**
+     * 逻辑删除,将数据标记为删除状态
+     * @author Michael_xu
+     */
 //	public function signDelById($id)
 //	{
 //		if (!$id) {

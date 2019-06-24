@@ -266,6 +266,7 @@ abstract class Connection
      */
     public function connect(array $config = [], $linkNum = 0, $autoConnection = false)
     {
+
         if (!isset($this->links[$linkNum])) {
             if (!$config) {
                 $config = $this->config;
@@ -293,6 +294,7 @@ abstract class Connection
                     $startTime = microtime(true);
                 }
                 $this->links[$linkNum] = new PDO($config['dsn'], $config['username'], $config['password'], $params);
+
                 if ($config['debug']) {
                     // 记录数据库连接信息
                     Log::record('[ DB ] CONNECT:[ UseTime:' . number_format(microtime(true) - $startTime, 6) . 's ] ' . $config['dsn'], 'sql');

@@ -18,7 +18,7 @@ class System extends Common
 	//列表
 	public function getDataList()
 	{
-		$list = Db::name('AdminSystem')->select();
+		$list = Db::name('admin_system')->select();
 		$temp = array();
 		foreach ($list as $key => $value) {
 			$temp[$value['name']] = $value['value'];

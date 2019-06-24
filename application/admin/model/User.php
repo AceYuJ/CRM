@@ -7,33 +7,33 @@
 
 namespace app\admin\model;
 
+use app\CheckCompany;
 use think\Db;
 use app\admin\model\Common;
 use com\verify\HonrayVerify;
 use think\Cache;
 use think\Request;
-
+use think\Validate;
 class User extends Common
 {
     /**
      * 为了数据库的整洁，同时又不影响Model和Controller的名称
      * 我们约定每个模块的数据表都加上相同的前缀，比如CRM模块用crm作为数据表前缀
      */
-	protected $name = 'admin_user';
+    protected $name = 'admin_user';
     protected $createTime = 'create_time';
     protected $updateTime = false;
-	protected $autoWriteTimestamp = true;
-	protected $insert = [
-		'status' => 2,
-	];
-	protected $statusArr = ['禁用','启用','未激活'];
+    protected $autoWriteTimestamp = true;
+    protected $insert = [
+        'status' => 2,
+    ];
+    protected $statusArr = ['禁用','启用','未激活'];
 
-	protected $dateFormat = 'Y-m-d';
+    protected $dateFormat = 'Y-m-d';
     protected $type = [
         'create_time'    =>  'timestamp',
         'update_time'    =>  'timestamp',
     ];
-
 	/**
 	 * 获取用户所属所有用户组
 	 * @param  array   $param  [description]
@@ -194,6 +194,7 @@ class User extends Common
 	 */
 	public function createData($param)
 	{
+
 		if (empty($param['group_id']) || !is_array($param['group_id'])) {
 			$this->error = '请至少勾选一个用户组';
 			return false;
@@ -369,6 +370,7 @@ class User extends Common
 	 */
 	public function login($username, $password, $verifyCode = '', $isRemember = false, $type = false, $authKey = '', $mobile = 0)
 	{
+
         if (!$username) {
 			$this->error = '帐号不能为空';
 			return false;
@@ -392,12 +394,13 @@ class User extends Common
 		$map['username'] = $username;
 		$map['type'] = 1;
 		$userInfo = $this->where($map)->find();
-		
+
     	if (!$userInfo) {
 			$this->error = '帐号不存在';
 			return false;
     	}
 		$userInfo['thumb_img'] = $userInfo['thumb_img'] ? getFullPath($userInfo['thumb_img']) : '';
+
     	if (user_md5($password, $userInfo['salt'], $userInfo['username']) !== $userInfo['password']) {
 			$this->error = '密码错误';
 			return false;
@@ -452,6 +455,7 @@ class User extends Common
     		$userData['status'] = 1;
     	}
         db('admin_user')->where(['id' => $userInfo['id']])->update($userData);
+
         return $data;
     }
 
@@ -549,6 +553,7 @@ class User extends Common
     		$menusList = Db::name('admin_menu')->where($map)->order('sort asc')->select();
         } else {
 			$groups = $this->get($u_id)->groups;
+
 	        $ruleIds = [];
 			foreach($groups as $k => $v) {
 				if (stringToArray($v['rules'])) {
@@ -872,5 +877,200 @@ class User extends Common
  			}			
 		}
 		return true;
-	}		
+	}
+
+    /**
+     * 添加验证数据
+     * @param $data
+     * @return array
+     */
+    public static function verifyRegister($data)
+    {
+        $rule = [
+            'username' => 'require',
+            'password' => 'require',
+            'realname' => 'require',
+            'company_code' => 'require',
+            'company_name' => 'require',
+        ];
+        $msg =[
+            'username.require' => '用户名不能为空',
+            'password.require' => '密码不能为空',
+            'realname.require' => '负责人名称不能为空',
+            'company_code.require' => '公司社会统一代码不能为空',
+            'company_name.require' => '公司名称不能为空',
+        ];
+        $data =[
+            'username' => $data['username'],
+            'password' => $data['password'],
+            'realname' => $data['realname'],
+            'company_code' => $data['company_code'],
+            'company_name' => $data['company_name'],
+        ];
+
+        $validate = new Validate($rule,$msg);
+        $result = $validate->check($data);
+
+        if(!$result){
+            return $validate->getError();
+        }
+
+    }
+
+    /**
+     * 执行添加
+     *
+     */
+    public  function increase($param)
+    {
+
+        if (self::where(['username' => $param['username']])->whereOr(['company_code'=>$param['company_code']])->find()) {
+            $this->error = '手机或者公司统一代码已注册';
+            return false;
+        }
+        $syncModel = new \app\admin\model\Sync();
+
+        $this->startTrans();
+        try {
+            $salt = substr(md5(time()),0,4);
+            $param['salt'] = $salt;
+            if (!$param['password']) {
+                $password = $param['username'];
+            } else {
+                $password = $param['password'];
+            }
+            $param['password'] = user_md5($password, $salt, $param['username']);
+            $param['type'] = 1;
+            $param['mobile'] = $param['username'];
+            $param['sql_num'] = $param['company_code'];
+            $this->data($param)->allowField(true)->save();
+            $user_id = $this->id;
+            //员工档案
+            $data['user_id'] = $param['user_id'];
+            unset($param['user_id']);
+            $data['user_id'] = $user_id;
+            $data['mobile'] = $param['username'];
+            $data['email'] = $param['email'] ? : '';
+            $data['sex'] = $param['sex'] ? : '';
+            $data['create_time'] = time();
+            Db::name('HrmUserDet')->insert($data);
+                $userGroup['user_id'] = $user_id;
+                $userGroup['group_id'] = 1;
+                $userGroups[] = $userGroup;
+            Db::name('admin_access')->insertAll($userGroups);
+
+            $this->commit();
+            $this->installMysql($param);
+            //获取数据库生产名称
+            $param['user_id'] = $data['user_id'];
+            $resSync = $syncModel->syncData($param);
+            return $user_id;
+        } catch(\Exception $e) {
+            $this->rollback();
+            $this->error = '添加失败';
+            return false;
+        }
+
+    }
+
+    public function installMysql($param){
+
+            if (!file_exists(getcwd() . "/public/sql/5kcrm.sql")) {
+                return resultArray(['error' => '缺少必要的数据库文件!']);
+            }
+            $dbname =$param['username'].'_crm';
+            $databaseConfig = (new CheckCompany())->getConnect($dbname);
+
+            $db_config['type']     = $databaseConfig['type'];
+            $db_config['hostname'] = $databaseConfig['hostname'];
+            $db_config['hostport'] = $databaseConfig['hostport'];
+            $db_config['database'] = $databaseConfig['database'];
+            $db_config['username'] = $databaseConfig['username'];
+            $db_config['password'] = $databaseConfig['password'];
+            $db_config['prefix']   = $databaseConfig['prefix'];
+            $db_config['charset']  = $databaseConfig['charset'];
+
+            if (empty($db_config['hostname'])) {
+                return resultArray(['error' => '请填写数据库主机!']);
+            }
+            if (empty($db_config['hostport'])) {
+                return resultArray(['error' => '请填写数据库端口!']);
+            }
+            if (preg_match('/[^0-9]/', $db_config['hostport'])) {
+                return resultArray(['error' => '数据库端口只能是数字!']);
+            }
+            if (empty($db_config['database'])) {
+                return resultArray(['error' => '请填写数据库名!']);
+            }
+            if (empty($db_config['username'])) {
+                return resultArray(['error' => '请填写数据库用户名!']);
+            }
+            if (empty($db_config['password'])) {
+                return resultArray(['error' => '请填写数据库密码!']);
+            }
+            if (empty($db_config['prefix'])) {
+                return resultArray(['error' => '请填写表前缀!']);
+            }
+            if (preg_match('/[^a-z0-9_]/i', $db_config['prefix'])) {
+                return resultArray(['error' => '表前缀只能包含数字、字母和下划线!']);
+            }
+            //        if (empty($username)) {
+            //            return resultArray(['error' => '请填写管理员用户名!']);
+            //        }
+            //        if (empty($password)) {
+            //            return resultArray(['error' => '请填写管理员密码!']);
+            //        }
+            session('install_count','');
+            session('install_now','');
+            $database = $db_config['database'];
+            unset($db_config['database']);
+
+            $connect = Db::connect($db_config);
+
+            // 检测数据库连接
+            try{
+                $ret = $connect->execute('select version()');
+            }catch(\Exception $e){
+
+                return resultArray(['error' => '数据库连接失败，请检查数据库配置！']);
+            }
+            $check = $connect->execute("SELECT * FROM information_schema.schemata WHERE schema_name='".$database."'");
+            if (!$check && !$connect->execute("CREATE DATABASE IF NOT EXISTS `".$database."` default collate utf8_general_ci ")) {
+                return resultArray(['error' => '没有找到您填写的数据库名且无法创建！请检查连接账号是否有创建数据库的权限!']);
+            }
+            $db_config['database'] = $dbname;
+            //        self::mkDatabase($db_config);写入配置文件
+            $C_Patch = substr($_SERVER['SCRIPT_FILENAME'],0,-10);
+            $sql = file_get_contents( $C_Patch.'/public/sql/5kcrm.sql');
+            $sqlList = parse_sql($sql, 0, ['5kcrm_' => $db_config['prefix']]);
+
+            if ($sqlList) {
+                $sqlList = array_filter($sqlList);
+                $install_count = count($sqlList);
+                session('install_count',$install_count);
+                foreach ($sqlList as $k=>$v) {
+                    $install_now = $k+1;
+                    session('install_now',$install_now);
+                    try {
+                        $temp_sql = $v.';';
+                        Db::connect($db_config)->query($temp_sql);
+                    } catch(\Exception $e) {
+                        // return resultArray(['error' => '请启用InnoDB数据引擎，并检查数据库是否有DROP和CREATE权限']);
+                        return resultArray(['error' => '数据库sql安装出错，请操作数据库手动导入sql文件']);
+                    }
+                }
+            }
+            $salt = $param['salt'];
+            $password = $param['password'];
+            $username = $param['username'];
+            $realname =$param['realname'];
+            //插入信息
+            Db::connect($db_config)->query("insert into ".$db_config['prefix']."admin_user (username, password, salt, img, thumb_img, realname, create_time, num, email, mobile, sex, status, structure_id, post, parent_id, type, authkey, authkey_time ) values ( '".$username."', '".$password."', '".$salt."', '', '', '".$realname."', ".time().", '', '', '".$username."', '', 1, 1, 'CEO', 0, 1, '', 0 )");
+            Db::connect($db_config)->query("insert into ".$db_config['prefix']."hrm_user_det (user_id, join_time, type, status, userstatus, create_time, update_time, mobile, sex, age, job_num, idtype, idnum, birth_time, nation, internship, done_time, parroll_id, email, political, location, leave_time ) values ( 1, ".time().", 1, 1, 2, ".time().", ".time().", '".$username."', '', 0, '', 0, '', '', 0, 0, 0, 0, '', '', '', 0 )");
+
+            //        touch(CONF_PATH . "install.lock");//创建安装锁
+            return resultArray(['data'=>'注册成功']);
+        }
+
+
 }
