@@ -7,6 +7,28 @@ export function login(username, password) {
     data: {
       username,
       password
+    },
+    headers:{
+      "Type":"login",
+      "Dbname":username
+    }
+  })
+}
+
+export function register(phone, validcode, newpwd, socialnums, contactperson, company) {
+  return request({
+    url: 'admin/base/register',
+    method: 'post',
+    data: {
+      realname: contactperson,
+      phone_code: validcode,
+      username: phone,
+      password: newpwd,
+      company_code: socialnums,
+      company_name: company
+    },
+    headers:{
+      "Type":"register"
     }
   })
 }

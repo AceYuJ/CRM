@@ -1,5 +1,6 @@
 import {
   login,
+  register,
   logout
 } from '@/api/login'
 import {
@@ -51,6 +52,7 @@ const user = {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
+          console.log('进入')
           const data = response.data
           Lockr.set('authKey', data.authKey)
           Lockr.set('sessionId', data.sessionId)
@@ -65,6 +67,22 @@ const user = {
           commit('SET_CRM', data.authList.crm)
           commit('SET_BI', data.authList.bi)
           commit('SET_MANAGE', data.authList.manage)
+          resolve(data)
+        }).catch(error => {
+          console.log("直接reject")
+          reject(error)
+        })
+      })
+    },
+
+    // 注册
+    Register({
+      commit
+    }, userInfo) {
+      const {phone, validcode, newpwd, socialnums, contactperson, company} = userInfo;
+      return new Promise((resolve, reject) => {
+        register(phone, validcode, newpwd, socialnums, contactperson, company).then(() => {
+          const data = response.data
           resolve(data)
         }).catch(error => {
           reject(error)

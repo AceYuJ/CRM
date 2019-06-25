@@ -3,44 +3,118 @@
     <div class="left">
       <div class="left-pic" />
     </div>
-    <div class="right">
-      <el-form ref="loginForm"
+    <div class="right"> 
+        <div class="title">{{name}}</div>
+        <el-tabs tab-position="bottom" stretch style="width:90%">
+          <el-tab-pane label="用户登陆">
+            <el-form ref="loginForm"
                :model="loginForm"
                :rules="loginRules"
                class="login-form"
                auto-complete="on"
-               label-position="left">
-        <div class="title">{{name}}</div>
-        <el-form-item prop="username">
-          <el-input ref="name"
-                    v-model="loginForm.username"
-                    autofocus="autofocus"
-                    name="username"
-                    type="text"
-                    auto-complete="on"
-                    placeholder="请输入用户名"
-                    @keyup.enter.native="handleLogin" />
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input type="password"
-                    v-model="loginForm.password"
-                    name="password"
-                    auto-complete="on"
-                    placeholder="请输入密码"
-                    @keyup.enter.native="handleLogin" />
-        </el-form-item>
-        <el-form-item>
-          <el-button :loading="loading"
-                     @click.native.prevent="handleLogin"
-                     class="submit-btn">
-            登录
-          </el-button>
-        </el-form-item>
-      </el-form>
+               label-position="left"
+               status-icon>
+               <el-form-item prop="username">
+                <el-input ref="name"
+                          v-model="loginForm.username"
+                          autofocus="autofocus"
+                          name="username"
+                          type="number"
+                          auto-complete="on"
+                          placeholder="请输入用户名"
+                          @keyup.enter.native="handleLogin" />
+              </el-form-item>
+              <el-form-item prop="password">
+                <el-input type="password"
+                          v-model="loginForm.password"
+                          name="password"
+                          auto-complete="on"
+                          placeholder="请输入密码"
+                          @keyup.enter.native="handleLogin" />
+              </el-form-item>
+              <el-form-item>
+                <el-button :loading="loading"
+                          @click.native.prevent="handleLogin"
+                          class="submit-btn">
+                  登录
+                </el-button>
+              </el-form-item>
+            </el-form>
+          </el-tab-pane>
+          <el-tab-pane label="用户注册">
+            <el-form ref="registerForm"
+               :model="registerForm"
+               :rules="registerRules"
+               class="login-form"
+               auto-complete="on"
+               label-position="left"
+               status-icon>
+              <el-form-item prop="phone">
+                <el-input ref="tel"
+                          v-model="registerForm.phone"
+                          autofocus="autofocus"
+                          name="phone"
+                          type="number"
+                          auto-complete="on"
+                          placeholder="请输入手机号"
+                          @keyup.enter.native="handleRegister" />
+              </el-form-item>
+              <el-form-item prop="validcode">
+                <el-input type="number"
+                          v-model="registerForm.validcode"
+                          name="validcode"
+                          auto-complete="on"
+                          placeholder="请输入短信验证码"
+                          @keyup.enter.native="handleRegister" >
+                  <template slot="append"><el-button class="code-btn" slot="append" size="medium" @click.stop="handleSend">{{ codeMsg }}</el-button></template>
+                </el-input>
+              </el-form-item>
+              <el-form-item prop="newpwd">
+                <el-input type="password"
+                          v-model="registerForm.newpwd"
+                          name="newpwd"
+                          auto-complete="on"
+                          placeholder="请输入密码"
+                          @keyup.enter.native="handleRegister" />
+              </el-form-item>
+              <el-form-item prop="socialnums">
+                <el-input type="text"
+                          v-model="registerForm.socialnums"
+                          name="socialnums"
+                          auto-complete="on"
+                          placeholder="请输入社会统一编号"
+                          @keyup.enter.native="handleRegister" />
+              </el-form-item>
+              <el-form-item prop="contactperson">
+                <el-input type="text"
+                          v-model="registerForm.contactperson"
+                          name="contactperson"
+                          auto-complete="on"
+                          placeholder="请输入联系人"
+                          @keyup.enter.native="handleRegister" />
+              </el-form-item>
+              <el-form-item prop="company">
+                <el-input type="text"
+                          v-model="registerForm.company"
+                          name="company"
+                          auto-complete="on"
+                          placeholder="请输入公司名称"
+                          @keyup.enter.native="handleRegister" />
+              </el-form-item>
+              <el-form-item>
+                <el-button :loading="loading"
+                          @click.native.prevent="handleRegister"
+                          class="submit-btn">
+                  注册
+                </el-button>
+              </el-form-item>
+            </el-form>
+          </el-tab-pane>
+        </el-tabs>
       <div class="copyright">
-        悟空CRM受国家计算机软件著作权保护，未经授权不得进行商业行为，违者必究。<br>
+        蓝云CRM受国家计算机软件著作权保护，未经授权不得进行商业行为，违者必究。<br>
         <a target="_blank"
-           href="http://www.5kcrm.com">©2019 悟空软件</a>
+           href="http://www.zhlanyun.com/">©2019 蓝云科技</a>
       </div>
     </div>
 
@@ -52,14 +126,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import Lockr from 'lockr'
-import { Loading } from 'element-ui'
+import { Loading, Message } from 'element-ui'
+import { setInterval, clearInterval } from 'timers';
 
 export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
       if (value.length == 0) {
-        callback(new Error('请输入账号'))
+        callback(new Error('请输入正确格式的手机号'))
       } else {
         callback()
       }
@@ -71,20 +146,51 @@ export default {
         callback()
       }
     }
+    const validateNewUser = (rule, value, callback) => {
+      if (!/^1[3456789]\d{9}$/.test(value)) {
+        callback(new Error('请输入正确格式的手机号'))
+      } else {
+        callback()
+      }
+    }
+    const validateSocialnums = (rule, value, callback) => {
+      this.registerForm.socialnums = value.trim()
+      if (!/^[^_IOZSVa-z\W]{2}\d{6}[^_IOZSVa-z\W]{10}$/g.test(this.registerForm.socialnums)) {
+        callback(new Error('请输入正确格式的社会统一编号'))
+      } else {
+        callback()
+      }
+    }
     return {
       loginForm: {
         username: '',
         password: ''
       },
+      registerForm:{
+        phone: '',
+        validcode: '',
+        newpwd: '',
+        socialnums: '',
+        contactperson: '',
+        company: ''
+      },
       loginRules: {
-        username: [
-          { required: true, trigger: 'blur', validator: validateUsername }
-        ],
-        password: [{ required: true, trigger: 'blur', validator: validatePass }]
+        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        password: [{ required: true, trigger: 'blur', validator: validatePass }],
+        phone: [{ required: true, trigger: 'blur', validator: validateNewUser }],
+        newpwd: [{ required: true, trigger: 'blur', validator: validatePass }],
+        socialnums: [{ required: true, trigger: 'blur', validator: validateSocialnums }]
+      },
+      registerRules: {
+        phone: [{ required: true, trigger: 'blur', validator: validateNewUser }],
+        newpwd: [{ required: true, trigger: 'blur', validator: validatePass }],
+        socialnums: [{ required: true, trigger: 'blur', validator: validateSocialnums }]
       },
       loading: false,
       redirect: undefined,
-      remember: false
+      remember: false,
+      codeMsg:"发送验证码",
+      time: 60
     }
   },
   watch: {
@@ -118,6 +224,43 @@ export default {
           return false
         }
       })
+    },
+    handleRegister() {
+      this.$refs.registerForm.validate(valid => {
+        if (valid) {
+          this.loading = true
+          this.$store
+            .dispatch('Register', this.registerForm)
+            .then(res => {
+              this.loading = false
+              Message({
+                message: '用户注册成功',
+                type: 'success'
+              })
+              // this.$store.dispatch('SystemLogoAndName')
+              // this.$router.push({ path: this.redirect || '/workbench/index' })
+            })
+            .catch(() => {
+              this.loading = false
+            })
+        } else {
+          return false
+        }
+      })
+    },
+    handleSend(){
+      let tid = setInterval(() => {
+        if( this.time > 0 ){
+            this.time -= 1 
+            this.codeMsg = `${this.time}s后重新发送`
+        }else{
+          this.time = 60
+          this.codeMsg = "发送验证码"
+          clearInterval(tid)
+        }
+      },1000)
+      this.time -= 1 
+      this.codeMsg = `${this.time}s后重新发送`
     }
   }
 }
@@ -137,6 +280,17 @@ $login_theme: #00aaee;
     -webkit-box-shadow: 0 0 0 1000px white inset !important;
     -webkit-text-fill-color: $light_gray !important;
   }
+  /*Chrome 下去除type ==  "number"  时 的右侧图标*/
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button{
+      -webkit-appearance: none !important;
+      margin: 0;
+  }
+  /*火狐 下去除type ==  "number"  时 的右侧图标*/
+  &[type="number"]{-moz-appearance:textfield;}
+
+  /*IE下去除 右边的×*/
+  &::-ms-clear{display:none;}
 }
 /deep/ .el-input__inner {
   height: 40px;
@@ -147,6 +301,16 @@ $login_theme: #00aaee;
 }
 /deep/ .el-form-item__error {
   left: 12px;
+}
+/deep/ .el-input-group__append{
+  background-color: #00aaee!important;
+  span{
+     color:#fff!important;
+     opacity: 0.9;
+       &:hover{
+          opacity: 1;
+       }
+  }
 }
 .wrapper {
   position: relative;
@@ -170,14 +334,15 @@ $login_theme: #00aaee;
     align-items: center;
     flex-direction: column;
     padding-top: 6%;
+    .title {
+      font-size: 26px;
+      color: $light_gray;
+      margin: 0 auto 50px;
+      text-align: center;
+    }
     .el-form {
-      width: 70%;
-      .title {
-        font-size: 26px;
-        color: $light_gray;
-        margin: 0 auto 50px;
-        text-align: center;
-      }
+      width: 80%;
+      margin: 0 auto;
       .submit-btn {
         width: 100%;
         line-height: 2;
@@ -226,7 +391,7 @@ $login_theme: #00aaee;
       width: 92%;
       position: absolute;
       bottom: 2%;
-      color: #d0d0d0;
+      color: #999;
       font-size: 12px;
       text-align: center;
       line-height: 1.5;
