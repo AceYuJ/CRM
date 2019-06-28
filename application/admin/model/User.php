@@ -394,7 +394,6 @@ class User extends Common
 		$map['username'] = $username;
 		$map['type'] = 1;
 		$userInfo = $this->where($map)->find();
-
     	if (!$userInfo) {
 			$this->error = '帐号不存在';
 			return false;
@@ -942,7 +941,7 @@ class User extends Common
             $param['password'] = user_md5($password, $salt, $param['username']);
             $param['type'] = 1;
             $param['mobile'] = $param['username'];
-            $param['sql_num'] = $param['company_code'];
+            $param['db_name'] = $param['username'];
             $this->data($param)->allowField(true)->save();
             $user_id = $this->id;
             //员工档案
@@ -1072,5 +1071,34 @@ class User extends Common
             return resultArray(['data'=>'注册成功']);
         }
 
+    /**
+     * 获取已经注册的所有公司
+     * @return array
+     */
+        public static function getc_ompany()
+        {
+          return  Db::connect([
+                // 数据库类型
+                'type'            => 'mysql',
+                // 服务器地址
+                'hostname'        => 'localhost',
+                // 数据库名
+                'database'        => '72crm',
+                // 用户名
+                'username'        => 'root',
+                // 密码
+                'password'        => 'Lanyun8*',
+                // 端口
+                'hostport'        => '3306',
+                // 连接dsn
+                'dsn'             => '',
+                // 数据库连接参数
+                'params'          => [],
+                // 数据库编码默认采用utf8
+                'charset'         => 'utf8',
+                // 数据库表前缀
+                'prefix'          => '5kcrm_',
+            ])->name('admin_user')->column('id,company_name,db_name');
+        }
 
 }

@@ -4,7 +4,7 @@ namespace app;
 use think\Db;
 class CheckCompany
 {
-    public static function getConnect($database='5kcrm1',$hostname='127.0.0.1',$username = 'root',$password = 'root',$hostport='3306'){
+    public static function getConnect($database='72crm',$hostname='localhost',$username = 'root',$password = 'Lanyun8*',$hostport='3306'){
 
         return [
                 // 数据库类型

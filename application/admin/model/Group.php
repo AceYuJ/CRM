@@ -122,4 +122,14 @@ class Group extends Common
 			return false;
 		}
 	}
+
+	public function getDataById($id = '')
+    {
+        $data = $this->get($id);
+        if (!$data) {
+            $this->error = '暂无此数据';
+            return false;
+        }
+        return $data;
+    }
 }

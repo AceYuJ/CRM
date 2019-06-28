@@ -25,6 +25,8 @@ return [
     'admin/system/index' => ['admin/system/index', ['method' => 'POST']],
     'admin/system/save' => ['admin/system/save', ['method' => 'POST']],
     'admin/users/ceshi' => ['admin/users/ceshi', ['method' => 'POST']],
+    // 【基础】获取注册公司
+    'admin/base/getCompany' => ['admin/base/getCompany', ['method' => 'POST']],
 	// 【基础】登录
 	'admin/base/login' => ['admin/base/login', ['method' => 'POST']],
     // 【基础】注册

@@ -77,11 +77,11 @@ class Common extends Model
 //		return $data;
 //	}
 
-    /**
-     * [createData 新建]
-     * @param     array                    $param [description]
-     * @return    [array]                         [description]
-     */
+//    /**
+//     * [createData 新建]
+//     * @param     array                    $param [description]
+//     * @return    [array]                         [description]
+//     */
 //	public function createData($param)
 //	{
 //		// 验证
@@ -129,12 +129,12 @@ class Common extends Model
 //		}
 //	}
 
-    /**
-     * [delDataById 根据id删除数据]
-     * @param     string                   $id     [主键]
-     * @param     boolean                  $delSon [是否删除子孙数据]
-     * @return    [type]                           [description]
-     */
+//    /**
+//     * [delDataById 根据id删除数据]
+//     * @param     string                   $id     [主键]
+//     * @param     boolean                  $delSon [是否删除子孙数据]
+//     * @return    [type]                           [description]
+//     */
 //	public function delDataById($id = '', $delSon = false)
 //	{
 //		if (!$id) {

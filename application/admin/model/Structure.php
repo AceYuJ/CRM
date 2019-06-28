@@ -59,6 +59,15 @@ class Structure extends Common
 		return $det;
 	}
 
+//    public function getDataById($id = '')
+//    {
+//        $data = $this->get($id);
+//        if (!$data) {
+//            $this->error = '暂无此数据';
+//            return false;
+//        }
+//        return $data;
+//    }
 	public function delStrById($id)
 	{
 		if (!$id) {
@@ -115,4 +124,77 @@ class Structure extends Common
 		$list = $this->field('id,name')->where(['id' => ['in',$idArr]])->select();
 		return $list;
 	}
+
+	public function createData($param)
+	{
+		// 验证
+		$validate = validate($this->name);
+		if (!$validate->check($param)) {
+			$this->error = $validate->getError();
+			return false;
+		}
+		try {
+			$this->data($param)->allowField(true)->save();
+			return true;
+		} catch(\Exception $e) {
+			$this->error = '添加失败';
+			return false;
+		}
+	}
+
+    /**
+     * [delDataById 根据id删除数据]
+     * @param     string                   $id     [主键]
+     * @param     boolean                  $delSon [是否删除子孙数据]
+     * @return    [type]                           [description]
+     */
+    public function delDataById($id = '', $delSon = false)
+    {
+        if (!$id) {
+            $this->error = '删除失败';
+            return false;
+        }
+        $this->startTrans();
+        try {
+            $this->where($this->getPk(), $id)->delete();
+            if ($delSon && is_numeric($id)) {
+                // 删除子孙
+                $childIds = $this->getAllChild($id);
+                if($childIds){
+                    $this->where($this->getPk(), 'in', $childIds)->delete();
+                }
+            }
+            $this->commit();
+            return true;
+        } catch(\Exception $e) {
+            $this->error = '删除失败';
+            $this->rollback();
+            return false;
+        }
+    }
+
+    public function updateDataById($param, $id)
+	{
+		$checkData = $this->get($id);
+		if (!$checkData) {
+			$this->error = '暂无此数据';
+			return false;
+		}
+
+		// 验证
+		$validate = validate($this->name);
+		if (!$validate->scene('edit')->check($param)) {
+			$this->error = $validate->getError();
+			return false;
+		}
+
+		try {
+			$this->allowField(true)->save($param, [$this->getPk() => $id]);
+			return true;
+		} catch(\Exception $e) {
+			$this->error = '编辑失败';
+			return false;
+		}
+	}
+
 }

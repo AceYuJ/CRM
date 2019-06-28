@@ -68,8 +68,9 @@ function resultArray($array)
     }
     return json([
         'code'  => $code,
-        'data'  => $array['data'],
-        'error' => $array['error']
+        'error' => $array['error'],
+        'data'  => $array['data']
+
     ]);
 }
 

@@ -87,6 +87,7 @@ class Announcement extends ApiCommon
         $res = $announcementModel->createData($param);
         if ($res) {
 			$res['realname'] = $userInfo['realname'];
+		
             return resultArray(['data' => $res]);
         } else {
         	return resultArray(['error' => $announcementModel->getError()]);

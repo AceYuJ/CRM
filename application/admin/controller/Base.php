@@ -7,7 +7,6 @@
 
 namespace app\admin\controller;
 
-use app\admin\model\Register;
 use app\admin\model\User;
 use app\CheckCompany;
 use com\verify\HonrayVerify;
@@ -17,6 +16,11 @@ use think\Session;
 
 class Base extends Common
 {
+    public function getCompany()
+    {
+        $data = User::getc_ompany();
+        return resultArray(['data' => $data]);
+    }
     public function login()
     {
         $userModel = model('User');
@@ -26,8 +30,10 @@ class Base extends Common
         $verifyCode = !empty($param['verifyCode'])? $param['verifyCode']: '';
         $isRemember = !empty($param['isRemember'])? $param['isRemember']: '';
         $is_mobile = $param['is_mobile'] ? : '';
+        
         $data = $userModel->login($username, $password, $verifyCode, $isRemember, $type, $authKey, $is_mobile);
-
+        //获取已经注册的所以公司
+//        print_r($data);exit;
         Session::set('user_id', $data['userInfo']['id']);
         if (!$data) {
             return resultArray(['error' => $userModel->getError()]);
@@ -94,6 +100,7 @@ class Base extends Common
     // miss 路由：处理没有匹配到的路由规则
     public function miss()
     {
+
         if (Request::instance()->isOptions()) {
             return ;
         } else {
