@@ -1,6 +1,13 @@
 import request from '@/utils/request'
 
-export function login(username, password) {
+export function getCompany() {
+  return request({
+    url: 'admin/base/getCompany',
+    method: 'post'
+  })
+}
+
+export function login(company, username, password) {
   return request({
     url: 'admin/base/login',
     method: 'post',
@@ -10,8 +17,9 @@ export function login(username, password) {
     },
     headers:{
       "Type":"login",
-      "Dbname":username
-    }
+      "Dbname":company
+    },
+    timeout:3000
   })
 }
 

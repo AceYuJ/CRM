@@ -169,6 +169,7 @@ export default {
     // 点击显示详情
     rowFun(val) {
       this.titleList = val
+      console.log(val)
       this.dialog = true
     },
     close() {

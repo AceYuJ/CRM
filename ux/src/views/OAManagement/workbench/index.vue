@@ -129,6 +129,7 @@ export default {
         limit: 15
       })
         .then(res => {
+          console.log(res.data.list)
           this.listData = this.listData.concat(res.data.list)
           if (Math.ceil(res.data.dataCount / 15) <= page) {
             this.loadText = '没有更多了'

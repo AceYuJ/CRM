@@ -143,7 +143,8 @@ export default {
             this.titleList = {
               title: val.title,
               create_time: val.create_time,
-              content: val.ann_content
+              content: val.ann_content,
+              announcement_id: val.action_id
             }
           }
           break

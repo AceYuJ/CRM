@@ -1,4 +1,5 @@
 import {
+  getCompany,
   login,
   register,
   logout
@@ -45,13 +46,27 @@ const user = {
   },
 
   actions: {
+
+    // 登陆页获取公司列表
+    getCompanyList({
+      commit
+    }) {
+      return new Promise((resolve, reject) => {
+        getCompany().then(response => {
+          resolve(response.data)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+
     // 登录
     Login({
       commit
     }, userInfo) {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
-        login(username, userInfo.password).then(response => {
+        login(userInfo.value,username, userInfo.password).then(response => {
           console.log('进入')
           const data = response.data
           Lockr.set('authKey', data.authKey)
@@ -59,8 +74,7 @@ const user = {
           Lockr.set('userInfoId', data.userInfo.id)
           Lockr.set('loginUserInfo', data.userInfo)
           Lockr.set('authList', data.authList)
-
-          addAuth(data.authKey, data.sessionId)
+          addAuth(data.authKey, data.sessionId, userInfo.value)
           commit('SET_USERINFO', data.userInfo)
           // 权限
 
@@ -69,7 +83,7 @@ const user = {
           commit('SET_MANAGE', data.authList.manage)
           resolve(data)
         }).catch(error => {
-          console.log("直接reject")
+          console.log("user.js直接reject")
           reject(error)
         })
       })

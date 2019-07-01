@@ -4,7 +4,7 @@
       <div class="left-pic" />
     </div>
     <div class="right"> 
-        <div class="title">{{name}}</div>
+        <div class="title">{{ name == "悟空软件" ? "蓝云科技" : name }}</div>
         <el-tabs tab-position="bottom" stretch style="width:90%">
           <el-tab-pane label="用户登陆">
             <el-form ref="loginForm"
@@ -15,9 +15,16 @@
                label-position="left"
                status-icon>
                <el-form-item prop="username">
+                 <el-select v-model="loginForm.value" filterable placeholder="请选择公司" @change="setDbCache">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.company_name"
+                    :value="item.db_name">
+                  </el-option>
+                </el-select>
                 <el-input ref="name"
                           v-model="loginForm.username"
-                          autofocus="autofocus"
                           name="username"
                           type="number"
                           auto-complete="on"
@@ -127,44 +134,54 @@
 import { mapGetters } from 'vuex'
 import Lockr from 'lockr'
 import { Loading, Message } from 'element-ui'
-import { setInterval, clearInterval } from 'timers';
+import { setInterval, clearInterval } from 'timers'
+import { isNull } from 'util';
 
 export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (value.length == 0) {
-        callback(new Error('请输入正确格式的手机号'))
+      if (!/^(1[3456789]\d{9})$/.test(value)) {
+        this.is_error = false
+        callback(new Error('请输入正确格式的用户名'))
       } else {
+        this.is_error = true
         callback()
       }
     }
     const validatePass = (rule, value, callback) => {
       if (value.length < 5) {
+        this.is_error = false
         callback(new Error('密码不能小于5位'))
       } else {
+        this.is_error = true
         callback()
       }
     }
     const validateNewUser = (rule, value, callback) => {
       if (!/^1[3456789]\d{9}$/.test(value)) {
+        this.is_error = false
         callback(new Error('请输入正确格式的手机号'))
       } else {
+        this.is_error = true
         callback()
       }
     }
     const validateSocialnums = (rule, value, callback) => {
       this.registerForm.socialnums = value.trim()
       if (!/^[^_IOZSVa-z\W]{2}\d{6}[^_IOZSVa-z\W]{10}$/g.test(this.registerForm.socialnums)) {
+        this.is_error = false
         callback(new Error('请输入正确格式的社会统一编号'))
       } else {
+        this.is_error = true
         callback()
       }
     }
     return {
       loginForm: {
         username: '',
-        password: ''
+        password: '',
+        value: ''
       },
       registerForm:{
         phone: '',
@@ -176,10 +193,7 @@ export default {
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePass }],
-        phone: [{ required: true, trigger: 'blur', validator: validateNewUser }],
-        newpwd: [{ required: true, trigger: 'blur', validator: validatePass }],
-        socialnums: [{ required: true, trigger: 'blur', validator: validateSocialnums }]
+        password: [{ required: true, trigger: 'blur', validator: validatePass }]
       },
       registerRules: {
         phone: [{ required: true, trigger: 'blur', validator: validateNewUser }],
@@ -190,7 +204,10 @@ export default {
       redirect: undefined,
       remember: false,
       codeMsg:"发送验证码",
-      time: 60
+      time: 60,
+      options:[],
+      retry:4,
+      is_error:false
     }
   },
   watch: {
@@ -204,21 +221,52 @@ export default {
   computed: {
     ...mapGetters(['logo', 'name'])
   },
-  mounted() {},
+  mounted() {
+     this.$store.dispatch('getCompanyList')
+    .then(res => {
+      // console.log(res)
+      let optionsArray = []
+      for(let index in res){
+        if(Number(index)>2){
+          optionsArray.push(res[index])
+        }
+      }
+      console.log(optionsArray)
+      this.options = optionsArray
+    })
+    .catch(() => {})
+  },
   methods: {
     handleLogin() {
+      const _this = this
+      Lockr.set('isLogin',1)
       this.$refs.loginForm.validate(valid => {
-        if (valid) {
+        if (this.isCompanyExsit() && this.isError() && valid) {
           this.loading = true
           this.$store
             .dispatch('Login', this.loginForm)
             .then(res => {
               this.loading = false
               this.$store.dispatch('SystemLogoAndName')
+              Lockr.rm('isLogin')
               this.$router.push({ path: this.redirect || '/workbench/index' })
             })
-            .catch(() => {
+            .catch((error) => {
+              console.log(error)
               this.loading = false
+              this.retry--
+              if(error.code != 400){
+                if(this.retry < 4 && this.retry > -1){
+                  this.handleLogin()
+                }else{
+                  this.retry = 4
+                  Lockr.rm('isLogin')
+                  _this.$message({
+                    message: 'request网络请求失败，请稍候再试',
+                    type: 'error'
+                  })
+                }
+              }
             })
         } else {
           return false
@@ -226,6 +274,7 @@ export default {
       })
     },
     handleRegister() {
+      const _this = this
       this.$refs.registerForm.validate(valid => {
         if (valid) {
           this.loading = true
@@ -233,12 +282,10 @@ export default {
             .dispatch('Register', this.registerForm)
             .then(res => {
               this.loading = false
-              Message({
+              _this.$message({
                 message: '用户注册成功',
                 type: 'success'
               })
-              // this.$store.dispatch('SystemLogoAndName')
-              // this.$router.push({ path: this.redirect || '/workbench/index' })
             })
             .catch(() => {
               this.loading = false
@@ -261,6 +308,33 @@ export default {
       },1000)
       this.time -= 1 
       this.codeMsg = `${this.time}s后重新发送`
+    },
+    setDbCache() {
+      console.log("Dbname:",this.loginForm.value)
+      Lockr.set('Dbname',this.loginForm.value)
+    },
+    isCompanyExsit() {
+      let _this = this
+      if(!this.loginForm.value){
+        if(/^(18888888888)|(18666666666)$/.test(this.loginForm.username)){
+          return true
+        }else{
+          _this.$message({message: '请先选择公司',type: 'error'})
+        }
+        return false
+      }else{
+        return true
+      }
+    },
+    isError(){
+      let _this = this
+      console.log(_this.is_error)
+      if(!_this.is_error){
+        _this.$message({message: '请按正确要求填写信息',type: 'error'})
+        return false
+      }else{
+        return true
+      }
     }
   }
 }
@@ -291,6 +365,10 @@ $login_theme: #00aaee;
 
   /*IE下去除 右边的×*/
   &::-ms-clear{display:none;}
+}
+/deep/ .el-select{
+  width:100%;
+  margin-bottom: 22px;
 }
 /deep/ .el-input__inner {
   height: 40px;

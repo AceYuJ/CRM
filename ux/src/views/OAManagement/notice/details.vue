@@ -69,6 +69,7 @@ export default {
      * 获取详情
      */
     getDetail() {
+      console.log(this.titleList)
       oaAnnouncementReadAPI({
         announcement_id: this.titleList.announcement_id
       })
