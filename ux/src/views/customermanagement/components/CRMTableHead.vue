@@ -657,8 +657,8 @@ export default {
   margin: 0 8px;
 }
 .c-filtrate {
-  margin: 0 10px 0 30px;
-  width: 12px;
+  margin: 0 10px 3px 30px;
+  width: 18px;
 }
 
 /** 勾选操作 */

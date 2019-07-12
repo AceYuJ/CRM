@@ -407,8 +407,8 @@ export default {
   display: inline-block;
   &-img {
     vertical-align: middle;
-    margin: 0 5px;
-    width: 12px;
+    margin: 0 5px 4px 2px;
+    width: 18px;
   }
 }
 .filtrate-button:hover {

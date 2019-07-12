@@ -400,7 +400,7 @@ $login_theme: #00aaee;
     .left-pic {
       width: 100%;
       height: 100%;
-      background: url('../../assets/img/login/login.png') no-repeat center;
+      background: url('../../assets/img/login/login_new.png') no-repeat center;
       background-size: cover;
     }
   }

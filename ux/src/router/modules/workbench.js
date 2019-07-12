@@ -15,7 +15,7 @@ const workbenchRouter = {
       component: () => import('@/views/OAManagement/workbench/index'),
       meta: {
         title: '工作台',
-        icon: 'workbench'
+        icon: 'webicon01'
       }
     },
     {
@@ -23,7 +23,7 @@ const workbenchRouter = {
       component: () => import('@/views/OAManagement/schedule/index'),
       meta: {
         title: '日程',
-        icon: 'schedule'
+        icon: 'richeng'
       }
     },
     {
@@ -31,7 +31,7 @@ const workbenchRouter = {
       component: () => import('@/views/OAManagement/task/index'),
       meta: {
         title: '任务',
-        icon: 'task'
+        icon: 'renwu'
       }
     },
     {
@@ -39,7 +39,7 @@ const workbenchRouter = {
       component: () => import('@/views/OAManagement/notice/index'),
       meta: {
         title: '公告',
-        icon: 'notice'
+        icon: 'gonggaoxianxing'
       }
     },
     {
@@ -47,7 +47,7 @@ const workbenchRouter = {
       component: () => import('@/views/OAManagement/journal/index'),
       meta: {
         title: '日志',
-        icon: 'log'
+        icon: 'rizhi'
       }
     },
     {
@@ -55,7 +55,7 @@ const workbenchRouter = {
       component: () => import('@/views/OAManagement/examine/index'),
       meta: {
         title: '审批',
-        icon: 'examine'
+        icon: 'iconzhengli_shenpi'
       }
     },
     {
@@ -78,7 +78,7 @@ const workbenchRouter = {
       component: () => import('@/views/OAManagement/addressBook/index'),
       meta: {
         title: '通讯录',
-        icon: 'address'
+        icon: 'cedaohang-tongxunlu'
       }
     }
   ]

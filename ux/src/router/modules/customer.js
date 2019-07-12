@@ -19,7 +19,7 @@ const customerRouter = {
       meta: {
         requiresAuth: false,
         title: '仪表盘',
-        icon: 'dashboard'
+        icon: 'yibiaopan'
       }
     },
     {
@@ -28,7 +28,7 @@ const customerRouter = {
       meta: {
         requiresAuth: false,
         title: '待办事项',
-        icon: 'message',
+        icon: 'BAI-lingdang',
         num: 0
       }
     },
@@ -38,7 +38,7 @@ const customerRouter = {
       meta: {
         requiresAuth: true,
         title: '线索',
-        icon: 'leads',
+        icon: 'hailiangxiansuo',
         index: 1,
         type: 'crm',
         subType: 'leads'
@@ -50,7 +50,7 @@ const customerRouter = {
       meta: {
         requiresAuth: true,
         title: '客户',
-        icon: 'customer',
+        icon: 'kehu1',
         index: 1,
         type: 'crm',
         subType: 'customer'
@@ -62,7 +62,7 @@ const customerRouter = {
       meta: {
         requiresAuth: true,
         title: '联系人',
-        icon: 'contacts',
+        icon: 'lianxirenqunzu',
         index: 1,
         type: 'crm',
         subType: 'contacts'
@@ -74,7 +74,7 @@ const customerRouter = {
       meta: {
         requiresAuth: true,
         title: '公海',
-        icon: 'seas',
+        icon: 'gonghaiguanli',
         index: 2,
         type: 'crm',
         subType: ['customer', 'pool']
@@ -87,7 +87,7 @@ const customerRouter = {
       meta: {
         requiresAuth: true,
         title: '商机',
-        icon: 'business',
+        icon: 'shangji',
         index: 1,
         type: 'crm',
         subType: 'business'
@@ -99,7 +99,7 @@ const customerRouter = {
       meta: {
         requiresAuth: true,
         title: '合同',
-        icon: 'contract',
+        icon: 'hetongxinxi',
         index: 1,
         type: 'crm',
         subType: 'contract'
@@ -111,7 +111,7 @@ const customerRouter = {
       meta: {
         requiresAuth: true,
         title: '回款',
-        icon: 'money',
+        icon: 'huikuantixing',
         index: 1,
         type: 'crm',
         subType: 'receivables'

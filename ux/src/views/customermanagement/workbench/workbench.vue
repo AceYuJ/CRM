@@ -23,7 +23,7 @@
       </div>
       <el-button class="check"
                  type="primary"
-                 icon="wukong wukong-check"
+                 icon="lanyun lanyun-sousuo1"
                  @click="showDuplicateCheck = true">数据查重</el-button>
     </flexbox>
     <customer-dash :data="dashData"></customer-dash>
@@ -149,6 +149,7 @@ export default {
 .user-container {
   margin-bottom: 20px;
   position: relative;
+  min-width: 1600px;
   .user-img {
     display: block !important;
     width: 40px;
@@ -182,12 +183,12 @@ export default {
   .check {
     position: absolute;
     top: 3px;
-    right: 0;
+    right: 13px;
     color: white;
     font-size: 13px;
     border-radius: 3px;
 
-    /deep/ .wukong-check {
+    /deep/ .lanyun-sousuo1 {
       margin-right: 4px;
       font-size: 17px;
     }

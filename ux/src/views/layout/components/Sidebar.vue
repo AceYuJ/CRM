@@ -37,8 +37,8 @@
                       :index="item.path"
                       class="menu-item-defalt"
                       :class="{'menu-item-select': activeIndex == item.path}">
-          <i class="wukong"
-             :class="'wukong-' + item.meta.icon"
+          <i class="lanyun"
+             :class="'lanyun-' + item.meta.icon"
              :style="{ 'color': activeIndex == item.path ? activeTextColor : textColor}"></i>
           <span slot="title">{{item.meta.title}}</span>
           <el-badge v-if="item.meta.num && item.meta.num > 0"
@@ -50,8 +50,8 @@
                     :index="item.path">
           <template slot="title"
                     v-if="!item.hidden">
-            <i class="wukong"
-               :class="'wukong-' + item.meta.icon"></i>
+            <i class="lanyun"
+               :class="'lanyun-' + item.meta.icon"></i>
             <span slot="title">{{item.meta.title}}</span>
           </template>
           <el-menu-item v-for="(subitem, subindex) in item.children"
@@ -185,7 +185,7 @@ export default {
   padding-bottom: 48px;
   .el-submenu.is-active {
     .el-submenu__title {
-      .wukong {
+      .lanyun {
         color: white;
       }
       span {
@@ -212,6 +212,9 @@ export default {
   border-left: 2px solid transparent;
   height: 46px;
   line-height: 46px;
+  &:last-of-type {
+    padding-left: 18px!important;
+  }
 }
 
 .menu-item-select {
@@ -286,7 +289,7 @@ export default {
   padding: 18px 20px;
 }
 
-.wukong {
+.lanyun {
   margin-right: 8px;
 }
 

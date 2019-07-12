@@ -63,7 +63,6 @@ import {
 Vue.prototype.emoji = emoji
 Vue.config.productionTip = false
 
-
 // 消息框
 import { Message } from 'element-ui'
 Vue.component(Message)

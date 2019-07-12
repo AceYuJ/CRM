@@ -10,8 +10,8 @@
                      :to="item.path"
                      v-for="(item, index) in items"
                      :key="index">
-          <i class="wukong"
-             :class="'wukong-' + item.icon"
+          <i class="lanyun"
+             :class="'lanyun-' + item.icon"
              style="margin-right: 10px;"
              :style="{ 'color': item.type == navIndexChild ? '#3E84E9' : '#333333'}"></i>
           <div class="nav-item-title">{{item.title}}</div>
@@ -25,12 +25,12 @@
                 trigger="click">
       <div class="handel-items">
         <div class="handel-item"
-             @click="handleClick('person')"><i class="wukong wukong-personcenter"></i>个人中心</div>
+             @click="handleClick('person')"><i class="lanyun lanyun-geren"></i>个人中心</div>
         <div class="handel-item"
-             @click="handleClick('goout')"><i class="wukong wukong-goout"></i>退出登录</div>
+             @click="handleClick('goout')"><i class="lanyun lanyun-web-icon-"></i>退出登录</div>
         <div class="handel-item hr-top"
              style="pointer-events: none;"
-             :style="{'margin-bottom': manage ? '15px' : '0'}"><i class="wukong wukong-versions"></i>版本 V9.0.2.190517</div>
+             :style="{'margin-bottom': manage ? '15px' : '0'}"><i class="lanyun lanyun-banben"></i>版本 V9.0.2.190517</div>
         <div v-if="manage"
              class="handel-box">
           <el-button @click="enterSystemSet()"
@@ -83,25 +83,25 @@ export default {
     items() {
       var tempsItems = []
       tempsItems.push({
-        title: '办公',
+        title: 'OA办公',
         type: 0,
         path: '/workbench',
-        icon: 'workbench'
+        icon: 'icon-test'
       })
       if (this.crm) {
         tempsItems.push({
           title: '客户管理',
           type: 1,
           path: '/crm',
-          icon: 'customer'
+          icon: 'kehu'
         })
       }
       if (this.bi) {
         tempsItems.push({
-          title: '商业智能',
+          title: '数据分析',
           type: 5,
           path: '/bi',
-          icon: 'statistics'
+          icon: 'icon-p_kucunfenxi'
         })
       }
       return tempsItems

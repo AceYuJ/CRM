@@ -17,8 +17,8 @@
               <p v-for="(item, index) in quickAddList"
                  :key="index"
                  @click="addSkip(item)">
-                <i class="wukong"
-                   :class="'wukong-' + item.icon"></i>
+                <i class="lanyun"
+                   :class="'lanyun-' + item.icon"></i>
                 <span>{{item.label}}</span>
               </p>
             </div>
@@ -56,28 +56,28 @@ export default {
       var addItems = []
       if (this.crm.leads && this.crm.leads.save) {
         addItems.push({
-          icon: 'leads',
+          icon: 'hailiangxiansuo',
           index: 'clue',
           label: '线索'
         })
       }
       if (this.crm.customer && this.crm.customer.save) {
         addItems.push({
-          icon: 'customer',
+          icon: 'kehu1',
           index: 'customer',
           label: '客户'
         })
       }
       if (this.crm.contacts && this.crm.contacts.save) {
         addItems.push({
-          icon: 'contacts',
+          icon: 'lianxirenqunzu',
           index: 'contacts',
           label: '联系人'
         })
       }
       if (this.crm.business && this.crm.business.save) {
         addItems.push({
-          icon: 'business',
+          icon: 'shangji',
           index: 'business',
           label: '商机'
         })
@@ -85,14 +85,14 @@ export default {
 
       if (this.crm.contract && this.crm.contract.save) {
         addItems.push({
-          icon: 'contract',
+          icon: 'hetongxinxi',
           index: 'contract',
           label: '合同'
         })
       }
       if (this.crm.receivables && this.crm.receivables.save) {
         addItems.push({
-          icon: 'money',
+          icon: 'huikuantixing',
           index: 'money',
           label: '回款'
         })

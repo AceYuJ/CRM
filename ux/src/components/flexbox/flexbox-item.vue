@@ -20,7 +20,7 @@ export default {
   methods: {
     buildWidth(width) {
       if (typeof width === 'number') {
-        if (width < 1) {
+        if (width <= 1) {
           return width
         } else {
           return width / 12

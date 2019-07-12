@@ -16,8 +16,8 @@
               <p v-for="(item, index) in list"
                  :key="index"
                  @click="addSkip(item)">
-                <i class="wukong"
-                   :class="'wukong-' + item.icon"></i>
+                <i class="lanyun"
+                   :class="'lanyun-' + item.icon"></i>
                 <span>{{item.label}}</span>
               </p>
             </div>
@@ -61,27 +61,27 @@ export default {
       list: [
         {
           label: '日志',
-          icon: 'log',
+          icon: 'rizhi',
           img: require('@/assets/img/add_journal.png')
         },
         {
           label: '审批',
-          icon: 'examine',
+          icon: 'iconzhengli_shenpi',
           img: require('@/assets/img/add_examine.png')
         },
         {
           label: '任务',
-          icon: 'task',
+          icon: 'renwu',
           img: require('@/assets/img/add_task.png')
         },
         {
           label: '日程',
-          icon: 'schedule',
+          icon: 'richeng',
           img: require('@/assets/img/add_schedule.png')
         },
         {
           label: '公告',
-          icon: 'notice',
+          icon: 'gonggaoxianxing',
           img: require('@/assets/img/add_notice.png')
         }
       ],

@@ -11,7 +11,7 @@ const customerAuth = {
 const customerRouter = {
   path: 'customer',
   meta: {
-    icon: 'employeestatistics',
+    icon: 'yuangongguanli-',
     title: '员工客户分析',
     ...customerAuth
   },
@@ -77,7 +77,7 @@ const businessAuth = {
 const businessRouter = {
   path: 'business',
   meta: {
-    icon: 'funnelstatistics',
+    icon: 'iconset0160',
     title: '销售漏斗分析',
     ...businessAuth
   },
@@ -119,7 +119,7 @@ const achievementAuth = {
 const achievementRouter = {
   path: 'achievement',
   meta: {
-    icon: 'BI_Employee_performance',
+    icon: 'yejiweijihuo-',
     title: '员工业绩分析',
     ...achievementAuth
   },
@@ -169,7 +169,7 @@ const portraitAuth = {
 const portrayalRouter = {
   path: 'portrayal',
   meta: {
-    icon: 'customer',
+    icon: 'kehu',
     title: '客户画像分析',
     ...portraitAuth
   },
@@ -196,7 +196,7 @@ const portrayalRouter = {
 const portrayalRouterMenu = {
   path: 'portrayal',
   meta: {
-    icon: 'customer',
+    icon: 'kehu',
     title: '客户画像分析',
     ...portraitAuth
   },
@@ -246,7 +246,7 @@ const productAuth = {
 const productRouter = {
   path: 'product',
   meta: {
-    icon: 'productstatistics',
+    icon: 'product',
     title: '产品分析',
     ...productAuth
   },
@@ -282,7 +282,7 @@ const rankingAuth = {
 const rankingRouter = {
   path: 'ranking',
   meta: {
-    icon: 'BI_Leaderboard',
+    icon: 'paihangbang',
     title: '排行榜',
     ...rankingAuth
   },
@@ -379,7 +379,7 @@ const taskCompleteRouteItem = {
   meta: {
     requiresAuth: true,
     title: '业绩目标完成情况',
-    icon: 'taskCompletestatistics',
+    icon: 'mubiao',
     index: 1,
     type: 'bi',
     subType: 'achievement'
@@ -395,7 +395,7 @@ export const biRouter = {
   hidden: true,
   meta: {
     requiresAuth: true,
-    title: '商业智能',
+    title: '数据分析',
     index: 0,
     type: 'bi'
   },

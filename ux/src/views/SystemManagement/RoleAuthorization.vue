@@ -215,7 +215,7 @@ export default {
       jurisdictionIndex: 'crm', // 默认模块 工作台
       muneList: [
         { label: '客户管理', index: 'crm' },
-        { label: '商业智能', index: 'bi' }
+        { label: '数据分析', index: 'bi' }
       ],
       treeData: [], // 角色权限数据
       showTreeData: [],

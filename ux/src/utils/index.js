@@ -248,3 +248,33 @@ export function dataURLtoBlob(dataurl) {
     type: mime
   })
 }
+
+/** 
+ * 获取当前月份的天数并转化为数组
+ */
+export function getCurrentMounthDaysArray(){
+  let date = new Date();
+  let day = date.getDate();
+  let month = date.getMonth() + 1;
+  let array = [];
+  for(let i=1;i<=day;i++){
+    array.push(`${month}月${i}号`);
+  }
+  return array;
+}
+
+/** 
+ * 小数转百分比
+ */
+ export function toPercent(point) {
+  let str=Number(point*100).toFixed(1);
+  str+="%";
+  return str;
+ }
+
+ /** 
+ * 角度转弧度
+ */
+export function angleToRadian(angle) {
+  return Math.PI / 180 * angle;
+}

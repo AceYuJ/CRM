@@ -19,7 +19,7 @@ const managerRouter = {
       meta: {
         requiresAuth: true,
         title: '系统配置',
-        icon: 'systemconfig',
+        icon: 'peizhi1',
         index: 1,
         type: 'manage',
         subType: 'system'
@@ -32,7 +32,7 @@ const managerRouter = {
       meta: {
         requiresAuth: true,
         title: '员工与部门管理',
-        icon: 'department',
+        icon: 'tuandui',
         index: 1,
         type: 'manage',
         subType: 'user'
@@ -45,7 +45,7 @@ const managerRouter = {
       meta: {
         requiresAuth: true,
         title: '角色权限管理',
-        icon: 'contacts',
+        icon: 'quanxianguanli',
         index: 1,
         type: 'manage',
         subType: 'permission'
@@ -58,7 +58,7 @@ const managerRouter = {
       meta: {
         requiresAuth: true,
         title: '审批流程管理',
-        icon: 'examine',
+        icon: 'iconzhengli_shenpi',
         index: 1,
         type: 'manage',
         subType: 'examineFlow'
@@ -71,7 +71,7 @@ const managerRouter = {
       meta: {
         requiresAuth: true,
         title: '工作台',
-        icon: 'workbench',
+        icon: 'webicon01',
         index: 1,
         type: 'manage',
         subType: 'oa'
@@ -84,7 +84,7 @@ const managerRouter = {
       meta: {
         requiresAuth: true,
         title: '客户管理',
-        icon: 'customer',
+        icon: 'kehu',
         index: 1,
         type: 'manage',
         subType: 'crm'
