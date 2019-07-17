@@ -9,7 +9,7 @@ import {
 import qs from 'qs'
 import Lockr from 'lockr'
 var showLoginMessageBox = false
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
+axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 axios.defaults.headers.post['Type'] = 'login'
 Lockr.get('Dbname') ? axios.defaults.headers.post['Dbname'] = Lockr.get('Dbname') : ""
 // 创建axios实例

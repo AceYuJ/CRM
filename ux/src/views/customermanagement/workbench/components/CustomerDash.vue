@@ -255,7 +255,8 @@ export default {
       axisChart: null, // 柱状图
       axisOption: null,
       negotiationNums: 0,
-      profit: 0
+      profit: 0,
+      // funnelDom: null
     }
   },
   watch: {
@@ -298,6 +299,9 @@ export default {
       this.getGainData()
     }
   },
+  // beforeDestroy() {
+  //   this.funnelDom.removeEventListener('mouseover')
+  // },
   methods: {
     // 销售简报
     getCrmIndexIndex() {
@@ -593,7 +597,7 @@ export default {
             return val.status_id_info == "赢单"
           })
           localStorage.dataCount = dataCount
-          this.gainOption.series[0].data[0].value = ((winSheetArr.length / dataCount) * 100).toFixed(1)
+          this.gainOption.series[0].data[0].value = dataCount > 0 ? ((winSheetArr.length / dataCount) * 100).toFixed(1) : 0
           this.gainOption.tooltip.formatter = `赢单数 ：${winSheetArr.length}<br />总单数 ：${dataCount}<br />赢单率 : {c}%`
           this.gainChart.setOption(this.gainOption, true)
           this.gainLoading = false
@@ -693,7 +697,7 @@ export default {
             const { list } = res.data
             this.pieOption.series[0].data[0].value = (list[0].count / parseInt(localStorage.dataCount) * 100).toFixed(1)
             this.pieChart.setOption(this.pieOption, true)
-
+             /**  漏斗canvas hover事件委托  */
             let funnel = document.querySelector('.funnel-other')
             funnel.addEventListener('mouseover',(ev) => {
               let target = ev.target || ev.srcElement;
@@ -715,7 +719,7 @@ export default {
                   }
               }
             },false)
-
+            // this.funnelDom = funnel
           })
           .catch(() => {
             this.funnelLoading = false
@@ -745,7 +749,6 @@ export default {
       ctx_validate.lineTo(120,120)
       ctx_validate.lineTo(0,150)
       ctx_validate.closePath()
-      // ctx_validate.fillStyle = 'rgb(83,109,254)'
       let bg = ctx_validate.createLinearGradient(0, 0, 0, 150)  //定义线性渐变，渐变的起点 (x1,y1) 与终点 (x2,y2)。
       bg.addColorStop(0, 'rgb(3,241,254)')  //定义好，之后开始上色
       bg.addColorStop(0.5, 'rgb(37,208,254)')
@@ -756,17 +759,16 @@ export default {
       ctx_validate.font="14px Georgia"
       ctx_validate.fillText("验证客户",25,80)
       
+      //需求阶段
       let canvas_need = document.querySelector(".funnel-canvas-need")
       let ctx_need = canvas_need.getContext("2d")
 
-      //需求阶段
       ctx_need.beginPath()
       ctx_need.moveTo(0,30)            //moveTo()起始位置
       ctx_need.lineTo(120,50)         //lineTo()路径位置
       ctx_need.lineTo(120,100)
       ctx_need.lineTo(0,120)
       ctx_need.closePath()
-      // ctx_need.fillStyle = 'rgb(112,132,245)'
       bg = ctx_need.createLinearGradient(0, 30, 0, 120)  //定义线性渐变，渐变的起点 (x1,y1) 与终点 (x2,y2)。
       bg.addColorStop(0, 'rgb(254,218,124)')  //定义好，之后开始上色
       bg.addColorStop(0.5, 'rgb(255,189,77)')
@@ -777,17 +779,16 @@ export default {
       ctx_need.font="14px Georgia"
       ctx_need.fillText("需求分析",30,80)
 
+      // 方案阶段
       let canvas_plan = document.querySelector(".funnel-canvas-plan")
       let ctx_plan = canvas_plan.getContext("2d")
 
-      // 方案阶段
       ctx_plan.beginPath()
       ctx_plan.moveTo(0,50)            //moveTo()起始位置
       ctx_plan.lineTo(120,60)         //lineTo()路径位置
       ctx_plan.lineTo(120,90)
       ctx_plan.lineTo(0,100)
       ctx_plan.closePath()
-      // ctx_plan.fillStyle = 'rgb(150,163,242)'
       bg = ctx_plan.createLinearGradient(0, 50, 0, 100)  //定义线性渐变，渐变的起点 (x1,y1) 与终点 (x2,y2)。
       bg.addColorStop(0, 'rgb(174,173,239)')  //定义好，之后开始上色
       bg.addColorStop(0.5, 'rgb(150,143,239)')
@@ -798,12 +799,11 @@ export default {
       ctx_plan.font="14px Georgia"
       ctx_plan.fillText("方案/报价",30,80)
 
+      // 谈判阶段
       let canvas_negotiation = document.querySelector(".funnel-canvas-negotiation")
       let ctx_negotiation = canvas_negotiation.getContext("2d")
       
-      // 谈判阶段
       //填充矩形（x, y是横纵坐标，原点在canvas的左上角）
-      // ctx_negotiation.fillStyle = 'rgb(177,187,246)'
       bg = ctx_negotiation.createLinearGradient(0, 60, 0, 120)  //定义线性渐变，渐变的起点 (x1,y1) 与终点 (x2,y2)。
       bg.addColorStop(0, 'rgb(255,154,131)')  //定义好，之后开始上色
       bg.addColorStop(0.5, 'rgb(255,127,98)')
@@ -1285,7 +1285,7 @@ export default {
         font-weight: bold;
         font-size: 28px;
         margin-bottom: 8px;
-      }
+      } 
     }
   }
   .funnel-right {
