@@ -2,8 +2,7 @@
 // +----------------------------------------------------------------------
 // | Description: CRM工作台
 // +----------------------------------------------------------------------
-// | Author:  Michael_xu | gengxiaoxu@5kcrm.com
-// +----------------------------------------------------------------------
+
 namespace app\crm\model;
 
 use think\Db;
@@ -24,6 +23,6 @@ class Index extends Common
 	{
 		$where = array();
 		$start_time = $param['start_time'];
-		$where['create_time'] = Time::today()	
+		$where['create_time'] = Time::today();
 	}
 } 		

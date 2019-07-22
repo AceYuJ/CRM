@@ -2,8 +2,6 @@
 // +----------------------------------------------------------------------
 // | Description: 站内信
 // +----------------------------------------------------------------------
-// | Author:  Michael_xu | gengxiaoxu@5kcrm.com
-// +----------------------------------------------------------------------
 namespace app\crm\model;
 
 use think\Db;
@@ -54,7 +52,7 @@ class Message extends Common
                 ->order($order)
                 ->select(); 
         foreach ($list as $k=>$v) {
-            $list[$k]['']
+            $list[$k][''];
         }
         $dataCount = $this->where($map)->count('message_id');
         $data = [];

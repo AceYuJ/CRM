@@ -2,8 +2,6 @@
 // +----------------------------------------------------------------------
 // | Description: 审批
 // +----------------------------------------------------------------------
-// | Author:  Michael_xu | gengxiaoxu@5kcrm.com
-// +----------------------------------------------------------------------
 namespace app\oa\model;
 
 use think\Db;
@@ -291,10 +289,20 @@ class Examine extends Common
 			return false;
 		}
 		
-		$fileArr = $param['file']; //接收表单附件
-		unset($param['file']);
+		$fileArr = $param['file_id']; //接收表单附件
+		unset($param['file_id']);
 
 		if ($this->allowField(true)->save($param, ['examine_id' => $examine_id])) {
+			//处理附件关系
+	        if ($fileArr) {
+	            $fileModel = new \app\admin\model\File();
+	            $resData = $fileModel->createDataById($fileArr, 'oa_examine', $examine_id);
+				if ($resData == false) {
+		        	$this->error = '附件上传失败';
+		        	return false;
+		        }
+	        }			
+
 			//站内信
             $createUserInfo = $userModel->getDataById($param['user_id']);
             $send_user_id = stringToArray($param['check_user_id']);

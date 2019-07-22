@@ -18,15 +18,18 @@ class ApiCommon extends Common
     public function _initialize()
     {
         parent::_initialize();
-
         /*获取头部信息*/ 
         $header = Request::instance()->header();
+        $request = Request::instance();
         
         $authKey = $header['authkey'];
-        $sessionId = $header['sessionid'];    
-        $cache = cache('Auth_'.$authKey);
+        $sessionId = $header['sessionid'];
+        $paramArr = $request->param();
+        $platform = $paramArr['platform'] ? '_'.$paramArr['platform'] : ''; //请求平台(mobile,ding)
+        $cache = cache('Auth_'.$authKey.$platform);         
+        
         // 校验sessionid和authKey
-        if (empty($sessionId) || empty($authKey) || empty($cache)) {
+        if (empty($sessionId) || empty($authKey) || empty($cache) || ($cache['sessionId'] !== $sessionId)) {
             header('Content-Type:application/json; charset=utf-8');
             exit(json_encode(['code'=>101, 'error'=>'登录已失效']));
         }

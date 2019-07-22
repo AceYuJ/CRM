@@ -2,8 +2,6 @@
 // +----------------------------------------------------------------------
 // | Description: 用户
 // +----------------------------------------------------------------------
-// | Author:  Michael_xu | gengxiaoxu@5kcrm.com 
-// +----------------------------------------------------------------------
 
 namespace app\admin\model;
 
@@ -428,14 +426,13 @@ class User extends Common
         $authKey = user_md5($userInfo['username'].$userInfo['password'].$info['sessionId'], $userInfo['salt']);
        // $info['_AUTH_LIST_'] = $dataList['rulesList'];
         $info['authKey'] = $authKey;
-        //手机登录
-        if ($mobile == 1) {
-        	cache('Auth_'.$userInfo['authkey'].'mobile', NULL);
-        	cache('Auth_'.$authKey.'mobile', $info, $loginExpire);
-        } else {
-        	cache('Auth_'.$userInfo['authkey'], NULL);
-			cache('Auth_'.$authKey, $info, $loginExpire);
-        }
+        
+    	$platform = $paramArr['platform'] ? '_'.$paramArr['platform'] : ''; //请求平台(mobile,ding)
+		//删除旧缓存
+        if (cache('Auth_'.$userInfo['authkey'].$platform)) {
+        	cache('Auth_'.$userInfo['authkey'].$platform, NULL);
+        }      
+        cache('Auth_'.$authKey.$platform, $info, $loginExpire);
         unset($userInfo['authkey']);
 		
         // 返回信息
@@ -444,6 +441,7 @@ class User extends Common
         $data['userInfo']		= $userInfo;
         $data['authList']		= $dataList['authList'];
         $data['menusList']		= $dataList['menusList'];
+        $data['loginExpire']	= $loginExpire;
              
         //保存authKey信息
         $userData = [];
@@ -453,8 +451,7 @@ class User extends Common
     	if ($userInfo['status'] == 2) {
     		$userData['status'] = 1;
     	}
-        db('admin_user')->where(['id' => $userInfo['id']])->update($userData);
-
+        $this->where(['id' => $userInfo['id']])->update($userData);
         return $data;
     }
 
@@ -888,6 +885,7 @@ class User extends Common
         $rule = [
             'username' => 'require',
             'password' => 'require',
+            'phone_code'=> 'require',
             'realname' => 'require',
             'company_code' => 'require',
             'company_name' => 'require',
@@ -895,6 +893,7 @@ class User extends Common
         $msg =[
             'username.require' => '用户名不能为空',
             'password.require' => '密码不能为空',
+            'phone_code.require'=> '短信验证码不能为空',
             'realname.require' => '负责人名称不能为空',
             'company_code.require' => '公司社会统一代码不能为空',
             'company_name.require' => '公司名称不能为空',
@@ -903,6 +902,7 @@ class User extends Common
             'username' => $data['username'],
             'password' => $data['password'],
             'realname' => $data['realname'],
+            'phone_code'=>$data['phone_code'],
             'company_code' => $data['company_code'],
             'company_name' => $data['company_name'],
         ];
@@ -974,7 +974,7 @@ class User extends Common
 
     public function installMysql($param){
 
-            if (!file_exists(getcwd() . "/public/sql/5kcrm.sql")) {
+            if (!file_exists(getcwd() . "/public/sql/lycrm.sql")) {
                 return resultArray(['error' => '缺少必要的数据库文件!']);
             }
             $dbname =$param['username'].'_crm';
@@ -1040,8 +1040,8 @@ class User extends Common
             $db_config['database'] = $dbname;
             //        self::mkDatabase($db_config);写入配置文件
             $C_Patch = substr($_SERVER['SCRIPT_FILENAME'],0,-10);
-            $sql = file_get_contents( $C_Patch.'/public/sql/5kcrm.sql');
-            $sqlList = parse_sql($sql, 0, ['5kcrm_' => $db_config['prefix']]);
+            $sql = file_get_contents( $C_Patch.'/public/sql/lycrm.sql');
+            $sqlList = parse_sql($sql, 0, ['lycrm_' => $db_config['prefix']]);
 
             if ($sqlList) {
                 $sqlList = array_filter($sqlList);
@@ -1083,11 +1083,11 @@ class User extends Common
                 // 服务器地址
                 'hostname'        => 'localhost',
                 // 数据库名
-                'database'        => '72crm',
+                'database'        => 'lanyun_crm',
                 // 用户名
                 'username'        => 'root',
                 // 密码
-                'password'        => 'Lanyun8*',
+                'password'        => 'sWs#t7Ghfq@3fdMh',
                 // 端口
                 'hostport'        => '3306',
                 // 连接dsn
@@ -1097,7 +1097,7 @@ class User extends Common
                 // 数据库编码默认采用utf8
                 'charset'         => 'utf8',
                 // 数据库表前缀
-                'prefix'          => '5kcrm_',
+                'prefix'          => 'lycrm_',
             ])->name('admin_user')->column('id,company_name,db_name');
         }
 

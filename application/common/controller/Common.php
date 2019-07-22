@@ -2,8 +2,6 @@
 // +----------------------------------------------------------------------
 // | Description: 解决跨域问题
 // +----------------------------------------------------------------------
-// | Author:  
-// +----------------------------------------------------------------------
 
 namespace app\common\controller;
 
@@ -25,15 +23,16 @@ class Common extends Controller
         header('Access-Control-Allow-Origin: '.$_SERVER['HTTP_ORIGIN']);
         header('Access-Control-Allow-Credentials: true');
         header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, authKey, sessionId");
+        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, authKey, sessionId, Type, Dbname");
         $param = Request::instance()->param();
+
         $this->param = $param;
         $request = request();
         $header = $request->header();
         $authKey = $header['authkey'];
         $cache = cache('Auth_'.$authKey);
-        if ($cache) $this->userInfo = $cache['userInfo'];
 
+        if ($cache) $this->userInfo = $cache['userInfo'];
         $m = strtolower($request->module());
         $c = strtolower($request->controller());
         $a = strtolower($request->action());

@@ -59,15 +59,6 @@ class Structure extends Common
 		return $det;
 	}
 
-//    public function getDataById($id = '')
-//    {
-//        $data = $this->get($id);
-//        if (!$data) {
-//            $this->error = '暂无此数据';
-//            return false;
-//        }
-//        return $data;
-//    }
 	public function delStrById($id)
 	{
 		if (!$id) {

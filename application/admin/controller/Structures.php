@@ -1,9 +1,4 @@
 <?php
-// +----------------------------------------------------------------------
-// | Description: 组织架构
-// +----------------------------------------------------------------------
-// | Author:  Michael_xu | gengxiaoxu@5kcrm.com
-// +----------------------------------------------------------------------
 
 namespace app\admin\controller;
 
@@ -21,6 +16,7 @@ class Structures extends ApiCommon
     **/    
     public function _initialize()
     {
+
         $action = [
             'permission'=>[''],
             'allow'=>['index','read','save','update','delete','deletes','enables','listdialog','subindex','getsubuserbystructrue']

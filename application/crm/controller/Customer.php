@@ -1,10 +1,4 @@
 <?php
-// +----------------------------------------------------------------------
-// | Description: 客户
-// +----------------------------------------------------------------------
-// | Author: Michael_xu | gengxiaoxu@5kcrm.com 
-// +----------------------------------------------------------------------
-
 namespace app\crm\controller;
 
 use app\admin\controller\ApiCommon;
@@ -573,7 +567,7 @@ class Customer extends ApiCommon
         $fieldModel = new \app\admin\model\Field();
         $field_list = $fieldModel->getIndexFieldList('crm_customer', $userInfo['id']);
         // 文件名
-        $file_name = '5kcrm_customer_'.date('Ymd');
+        $file_name = 'lycrm_customer_'.date('Ymd');
         $param['pageType'] = 'all'; 
         $excelModel->exportCsv($file_name, $field_list, function($list) use ($param){
             $list = model('Customer')->getDataList($param);
@@ -613,16 +607,16 @@ class Customer extends ApiCommon
 
         //设置属性
         $objProps = $objPHPExcel->getProperties();
-        $objProps->setCreator("5kcrm");
-        $objProps->setLastModifiedBy("5kcrm");
-        $objProps->setTitle("5kcrm");
-        $objProps->setSubject("5kcrm data");
-        $objProps->setDescription("5kcrm data");
-        $objProps->setKeywords("5kcrm data");
-        $objProps->setCategory("5kcrm");
+        $objProps->setCreator("lycrm");
+        $objProps->setLastModifiedBy("lycrm");
+        $objProps->setTitle("lycrm");
+        $objProps->setSubject("lycrm data");
+        $objProps->setDescription("lycrm data");
+        $objProps->setKeywords("lycrm data");
+        $objProps->setCategory("lycrm");
         $objPHPExcel->setActiveSheetIndex(0);
         $objActSheet = $objPHPExcel->getActiveSheet();
-        $objActSheet->setTitle('悟空软件客户导入模板'.date('Y-m-d',time()));
+        $objActSheet->setTitle('蓝云软件客户导入模板'.date('Y-m-d',time()));
 
         //填充边框
         $styleArray = [
@@ -820,5 +814,34 @@ class Customer extends ApiCommon
                 return resultArray(['error' => $customerModel->getError()]);
             }
         }
-    }     
+    }
+
+    /**
+     * 客户公海导出
+     * @author Michael_xu
+     * @param 
+     * @return
+     */
+    public function poolExcelExport()
+    {
+        $param = $this->param;
+        $userInfo = $this->userInfo;
+        $param['user_id'] = $userInfo['id'];
+        if ($param['customer_id']) {
+           $param['customer_id'] = ['condition' => 'in','value' => $param['customer_id'],'form_type' => 'text','name' => ''];
+           $param['is_excel'] = 1;
+        }
+        $excelModel = new \app\admin\model\Excel();
+        // 导出的字段列表
+        $fieldModel = new \app\admin\model\Field();
+        $field_list = $fieldModel->getIndexFieldList('crm_customer', $userInfo['id']);
+        // 文件名
+        $file_name = 'customer_'.date('Ymd');
+        $param['pageType'] = 'all'; 
+        $param['action'] = 'pool';
+        $excelModel->exportCsv($file_name, $field_list, function($list) use ($param){
+            $list = model('Customer')->getDataList($param);
+            return $list;
+        });
+    }      
 }

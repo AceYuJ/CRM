@@ -2,8 +2,6 @@
 // +----------------------------------------------------------------------
 // | Description: WEB端权限判断
 // +----------------------------------------------------------------------
-// | Author:  Michael_xu | gengxiaoxu@5kcrm.com  
-// +----------------------------------------------------------------------
 namespace app\common\behavior;
 
 use think\Request;
@@ -17,7 +15,7 @@ class AuthenticateBehavior
         header('Access-Control-Allow-Origin: '.$_SERVER['HTTP_ORIGIN']);
         header('Access-Control-Allow-Credentials: true');
         header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, authKey, sessionId");        
+        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, authKey, sessionId, Type, Dbname");
         $request = Request::instance();
         $m = strtolower($request->module());
         $c = strtolower($request->controller());
@@ -31,8 +29,10 @@ class AuthenticateBehavior
 		/*获取头部信息*/ 
         $header = $request->header();
         $authKey = $header['authkey'];
-		$cache = cache('Auth_'.$authKey);
-
+        
+		$paramArr = $request->param();
+        $platform = $paramArr['platform'] ? '_'.$paramArr['platform'] : ''; //请求分类(mobile,ding)
+        $cache = cache('Auth_'.$authKey.$platform); 
         $userInfo = $cache['userInfo'];
     	
     	if (in_array($a, $permission)) {

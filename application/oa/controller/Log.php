@@ -2,9 +2,6 @@
 // +----------------------------------------------------------------------
 // | Description: 工作日志
 // +----------------------------------------------------------------------
-// | Author: Michael_xu | gengxiaoxu@5kcrm.com 
-// +----------------------------------------------------------------------
-
 namespace app\oa\controller;
 
 use app\admin\controller\ApiCommon;
@@ -97,6 +94,7 @@ class Log extends ApiCommon
         $userInfo = $this->userInfo;
         $logModel = model('Log');
         $param['create_user_id'] = $userInfo['id'];
+        $param['create_user_name'] = $userInfo['realname'];
         $res = $logModel->createData($param);
         if ($res) {
 			$res['realname'] = $userInfo['realname'];
