@@ -61,7 +61,7 @@ router.afterEach(() => {
 router.onError((error) => {
   const pattern = /Loading chunk (\d)+ failed/g
   const isChunkLoadFailed = error.message.match(pattern)
-  const targetPath = router.history.pending.fullPath
+  const targetPath = router.history.pending.fullPath ? router.history.pending.fullPath : '/login'
   if (isChunkLoadFailed) {
     router.replace(targetPath)
   }

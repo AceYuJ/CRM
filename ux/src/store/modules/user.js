@@ -2,12 +2,13 @@ import {
   getCompany,
   login,
   register,
-  logout
+  logout,
+  validateCode
 } from '@/api/login'
 import {
   adminIndexAuthList
 } from '@/api/common'
-
+import { Message } from 'element-ui'
 import {
   adminUsersRead
 } from '@/api/personCenter/personCenter'
@@ -95,7 +96,23 @@ const user = {
     }, userInfo) {
       const {phone, validcode, newpwd, socialnums, contactperson, company} = userInfo;
       return new Promise((resolve, reject) => {
-        register(phone, validcode, newpwd, socialnums, contactperson, company).then(() => {
+        register(phone, validcode, newpwd, socialnums, contactperson, company).then(response => {
+          Message.success({
+            message: '用户注册成功'
+          })
+          resolve(response.data)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+
+    // 发送验证码
+    ValidateCode({
+      commit
+    }, userInfo) {
+      return new Promise((resolve, reject) => {
+        validateCode(userInfo).then(() => {
           const data = response.data
           resolve(data)
         }).catch(error => {

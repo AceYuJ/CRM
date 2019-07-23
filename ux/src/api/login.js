@@ -7,7 +7,7 @@ export function getCompany() {
   })
 }
 
-export function login(company, username, password) {
+export function login(company,username, password) {
   return request({
     url: 'admin/base/login',
     method: 'post',
@@ -34,6 +34,19 @@ export function register(phone, validcode, newpwd, socialnums, contactperson, co
       password: newpwd,
       company_code: socialnums,
       company_name: company
+    },
+    headers:{
+      "Type":"register"
+    }
+  })
+}
+
+export function validateCode(phone) {
+  return request({
+    url: 'admin/base/sendMessages',
+    method: 'post',
+    data: {
+      mobile: phone
     },
     headers:{
       "Type":"register"
