@@ -2,8 +2,7 @@
 // +----------------------------------------------------------------------
 // | Description: 任务标签及基础
 // +----------------------------------------------------------------------
-// | Author:  	yykun
-// +----------------------------------------------------------------------
+
 namespace app\oa\controller;
 
 use think\Request;
@@ -189,7 +188,7 @@ class Tasklable extends ApiCommon
         if (Request::instance()->isOptions()) {
             return ;
         } else {
-            echo '悟空软件';
+            echo '蓝云科技';
         }
     }      
 }

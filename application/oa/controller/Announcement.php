@@ -2,8 +2,6 @@
 // +----------------------------------------------------------------------
 // | Description: 公告
 // +----------------------------------------------------------------------
-// | Author: yyk
-// +----------------------------------------------------------------------
 
 namespace app\oa\controller;
 
@@ -84,6 +82,10 @@ class Announcement extends ApiCommon
             header('Content-Type:application/json; charset=utf-8');
             exit(json_encode(['code'=>102,'error'=>'无权操作']));
         }
+        //开始时间不能小于结束时间
+        if ($param['start_time'] && $param['end_time']) {
+            if ($param['start_time'] > $param['end_time']) resultArray(['error' => '开始时间不能大于结束时间']);
+        }
         $res = $announcementModel->createData($param);
         if ($res) {
 			$res['realname'] = $userInfo['realname'];
@@ -111,7 +113,7 @@ class Announcement extends ApiCommon
         $data = $announcementModel->getDataById($param['announcement_id']);
         $adminTypes = adminGroupTypes($user_id);
         //判断权限
-        if (!in_array($user_id, stringToArray($data['owner_user_ids'])) && !in_array($userInfo['structure_id'], stringToArray($data['structure_ids'])) && !in_array(1,$adminTypes)) {
+        if (!in_array($user_id, stringToArray($data['owner_user_ids'])) && !in_array($userInfo['structure_id'], stringToArray($data['structure_ids'])) && !in_array(1,$adminTypes) && ($data['owner_user_ids'] && $data['structure_id'])) {
             header('Content-Type:application/json; charset=utf-8');
             exit(json_encode(['code'=>102,'error'=>'没有权限']));
         }        
@@ -133,9 +135,12 @@ class Announcement extends ApiCommon
     {
         $announcementModel = model('Announcement');
         $param = $this->param;     
-		if( !$param['announcement_id'] ){
+		if (!$param['announcement_id']) {
 			return resultArray(['error' => '参数错误']);
 		}
+        if (!trim($param['content'])) {
+            return resultArray(['error' => '请填写公告正文']);
+        }        
         $res = $announcementModel->updateDataById($param, $param['announcement_id']);
         if ($res) {
             return resultArray(['data' => '编辑成功']);

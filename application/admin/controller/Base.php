@@ -11,6 +11,7 @@ use app\admin\model\User;
 use app\CheckCompany;
 use com\verify\HonrayVerify;
 use app\common\controller\Common;
+use think\Config;
 use think\Request;
 use think\Session;
 
@@ -33,13 +34,41 @@ class Base extends Common
         
         $data = $userModel->login($username, $password, $verifyCode, $isRemember, $type, $authKey, $is_mobile);
         //获取已经注册的所以公司
-//        print_r($data);exit;
         Session::set('user_id', $data['userInfo']['id']);
         if (!$data) {
             return resultArray(['error' => $userModel->getError()]);
         }
         return resultArray(['data' => $data]);
     }
+    //check_mobile
+    public function sendMessages(){
+        if(request()->isPost()){
+            $param = $this->param;
+            $header = Request::instance()->header();
+            if($header['type']=='register'){
+                //验证手机是否为空
+                if($param['mobile'] == '')return resultArray(['error' =>'手机不能为空']);
+
+                //验证是否是正确的手机号
+                if(!check_mobile($param['mobile'])) return resultArray(['error' =>'请输入正确的手机号']);
+
+                $code = rand(100000,999999);//生成随机验证码
+                //发送短信
+               if(aliSmsSend($param['mobile'], $code, '蓝云科技','SMS_171105265')== true){
+                   $data =['code'=>200 ,'res'=>$code,'msg'=>'发送成功'];
+                   session('sendMessages', $code);
+                   return resultArray(['data' => $data]);
+               }else{
+                   return resultArray(['error' =>'发送失败']);
+               }
+            }
+        }else{
+            return resultArray(['error' =>'非法提交']);
+        }
+
+
+    }
+
 
     /*
      * 公司注册
@@ -51,16 +80,17 @@ class Base extends Common
             $res = User::verifyRegister($param);
             if ($res) {
                 return json(array('status' => 1, 'msg' => $res));
-
+            }
+            $msgCode = Session::get('sendMessages');
+            if($param['phone_code'] != $msgCode){
+                return resultArray(['error' =>'验证码不正确']);
             }
             $userModel = model('User');
             $data = $userModel->increase($param);
             if($data){
-//                return resultArray(['data' => $data]);
                 return json(array('status'=>0,'msg'=>'注册成功','data'=>$data));
             }else{
                 return resultArray(['error' => $userModel->getError()]);
-//                return json(array('status'=>1,'msg'=>'注册失败'));
             }
          }
 

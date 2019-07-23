@@ -2,9 +2,6 @@
 // +----------------------------------------------------------------------
 // | Description: 基础框架路由配置文件
 // +----------------------------------------------------------------------
-// | Author: Michael_xu <gengxiaoxu@5kcrm.com>
-// +----------------------------------------------------------------------
-
 return [
     // 定义资源路由
     '__rest__'=>[
@@ -31,6 +28,9 @@ return [
 	'admin/base/login' => ['admin/base/login', ['method' => 'POST']],
     // 【基础】注册
     'admin/base/register' => ['admin/base/register', ['method' => 'POST']],
+
+    // 【基础】发送短信
+    'admin/base/sendMessages' => ['admin/base/sendMessages', ['method' => 'POST']],
 	// 【基础】短信验证码登录
 	'admin/base/smslogin' => ['admin/base/smslogin', ['method' => 'POST']],	
 	// 【基础】记住登录

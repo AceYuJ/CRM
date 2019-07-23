@@ -7,6 +7,7 @@
 use app\common\adapter\AuthAdapter;
 use app\admin\model\User as UserModel;
 use app\admin\model\Field as FieldModel;
+use think\Config;
 use think\Request;
 use think\Db;
 use extend\email\Email;
@@ -471,8 +472,10 @@ function getSubUser($userId)
  * @param unknown $template_code 模板参数
  */
 function aliSmsSend($send_mobile, $code, $signName, $templateCode) {
-    $appkey = '';
-    $secret = '';
+    $alidayu = Config::get('alidayu');
+    $appkey = $alidayu['Appkey'];
+    $secret = $alidayu['Secret'];
+
     import('alimsg.api.Sms',EXTEND_PATH);
     header('Content-Type: text/plain; charset=utf-8');
     $sms = new Sms( $appkey, $secret);
@@ -688,7 +691,7 @@ function utf8_strlen($string = null) {
  * @author Michael_xu
  * @return 
  */
-function checkVerify($saftCode = '5kcrm@'){
+function checkVerify($saftCode = 'lycrm@'){
     $parmList = Request::instance()->post();
     $header = $request->header();
     $parmList['sessionId'] = $header['sessionId'];
@@ -1363,4 +1366,15 @@ function setting($data)
         }
     }
     return $setting = substr($setting,0,strlen($setting) -1 ) .')';
+}
+
+/**
+ * 检查是否是手机
+ * @param $mobile
+ * @return bool
+ */
+function check_mobile($mobile) {
+    if (preg_match('/1[34578]\d{9}$/', $mobile))
+        return true;
+    return false;
 }

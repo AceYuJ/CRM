@@ -1,7 +1,7 @@
 <?php
 
 $header = \think\Request::instance()->header();
-//在在所有的头里都带上用户名,主要用户名存在就加载对应的数据库
+//在所有的头里都带上用户名,主要用户名存在就加载对应的数据库
 $param = \think\Request::instance()->param();
 $userInfo = ['18888888888','18666666666'];
 $arr2= [
@@ -10,11 +10,11 @@ $arr2= [
     // 服务器地址
     'hostname'        => 'localhost',
     // 数据库名
-    'database'        => '72crm',
+    'database'        => 'lanyun_crm',
     // 用户名
     'username'        => 'root',
     // 密码
-    'password'        => 'Lanyun8*',
+    'password'        => 'sWs#t7Ghfq@3fdMh',
     // 端口
     'hostport'        => '3306',
     // 连接dsn
@@ -24,7 +24,7 @@ $arr2= [
     // 数据库编码默认采用utf8
     'charset'         => 'utf8',
     // 数据库表前缀
-    'prefix'          => '5kcrm_',
+    'prefix'          => 'lycrm_',
     // 数据库调试模式
     'debug'           => true,
     // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
@@ -56,7 +56,7 @@ $arr2= [
             // 用户名
             'username'        => 'root',
             // 密码
-            'password'        => 'Lanyun8*',
+            'password'        => 'sWs#t7Ghfq@3fdMh',
             // 端口
             'hostport'        => '3306',
             // 连接dsn
@@ -66,7 +66,7 @@ $arr2= [
             // 数据库编码默认采用utf8
             'charset'         => 'utf8',
             // 数据库表前缀
-            'prefix'          => '5kcrm_',
+            'prefix'          => 'lycrm_',
             // 数据库调试模式
             'debug'           => true,
             // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)

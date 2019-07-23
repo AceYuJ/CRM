@@ -2,8 +2,6 @@
 // +----------------------------------------------------------------------
 // | Description: 附件
 // +----------------------------------------------------------------------
-// | Author:  Michael_xu | gengxiaoxu@5kcrm.com
-// +----------------------------------------------------------------------
 
 namespace app\admin\model;
 
@@ -29,7 +27,7 @@ class File extends Common
 	 * @param     $x 裁剪图的长 ,$y 裁剪图的宽
 	 * @return    [array]                         
 	 */
-	public function createData($files, $param, $x = '150', $y = '150')
+	public function createData($files, $param = [], $x = '150', $y = '150')
 	{	
         if (empty($files)) {
 			$this->error = '请选择上传文件';
@@ -229,6 +227,10 @@ class File extends Common
 			$this->error = '参数错误';
 			return false;
 		}
+		$module_ids = $request['module_id'];
+		if (!is_array($request['module_id'])) {
+			$module_ids = array($request['module_id']);
+		}
 
 		switch ($request['module']) {
 			case 'crm_leads' : $r = db('crm_leads_file'); $module = db('crm_leads'); break;
@@ -248,7 +250,7 @@ class File extends Common
 			default : break;
 		}
 		if ($r) {
-			$fileIds = $r->where([$module->getPk() => intval ($request['module_id'])])->column('file_id');
+			$fileIds = $r->where([$module->getPk() => ['in',$module_ids]])->column('file_id');
 			$request['file_id'] = ['in', $fileIds];			
 		}
 		unset($request['module']);

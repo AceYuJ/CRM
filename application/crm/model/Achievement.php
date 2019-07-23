@@ -2,8 +2,7 @@
 // +----------------------------------------------------------------------
 // | Description: 业绩目标
 // +----------------------------------------------------------------------
-// | Author:  yykun
-// +----------------------------------------------------------------------
+
 namespace app\crm\model;
 
 use think\Db;
@@ -207,10 +206,12 @@ class Achievement extends Common
 	    	$user_ids[] = $param['user_id'];
 			$map['obj_id'] = $param['user_id'];
 			$map['obj_type'] = 2;
-    	} elseif ($param['structure_id']) {
-    		//部门统计
-			$map['obj_id'] = $param['structure_id'];
-			$map['obj_type'] = 1;
+    	} else {
+	    	if ($param['structure_id']) {
+	    		//部门统计
+				$map['obj_id'] = $param['structure_id'];
+				$map['obj_type'] = 1;
+	    	}
     	}
     	$ret = array();
 		for ($i = 1; $i < 13; $i++) {

@@ -2,8 +2,6 @@
 // +----------------------------------------------------------------------
 // | Description: 回款
 // +----------------------------------------------------------------------
-// | Author:  Michael_xu | gengxiaoxu@5kcrm.com
-// +----------------------------------------------------------------------
 namespace app\crm\model;
 
 use think\Db;
@@ -125,7 +123,9 @@ class Receivables extends Common
         		$list[$k][$val.'_info'] = isset($v[$val]) ? $structureModel->getDataByStr($v[$val]) : [];
         	}
         	$list[$k]['check_status_info'] = $this->statusArr[$v['check_status']];
-
+        	//期数
+        	$plan_num = db('crm_receivables_plan')->where(['plan_id' => $v['plan_id']])->value('num');
+        	$list[$k]['plan_id_info'] = $plan_num ? : '';
 			//权限
 			$permission = [];
 			$is_read = 0;

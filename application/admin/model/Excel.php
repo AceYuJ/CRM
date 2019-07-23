@@ -2,8 +2,6 @@
 // +----------------------------------------------------------------------
 // | Description: 自定义字段模块数据Excel导入导出
 // +----------------------------------------------------------------------
-// | Author: Michael_xu | gengxiaoxu@5kcrm.com 
-// +----------------------------------------------------------------------
 
 namespace app\admin\model;
 
@@ -11,6 +9,7 @@ use app\admin\model\Common;
 use PHPExcel_IOFactory;
 use PHPExcel_Cell;
 use PHPExcel;
+use think\route\dispatch\Callback;
 
 class Excel extends Common
 {
@@ -54,16 +53,16 @@ class Excel extends Common
         $objWriter = new \PHPExcel_Writer_Excel2007($objPHPExcel);        
 
 		$objProps = $objPHPExcel->getProperties(); // 设置excel文档的属性
-		$objProps->setCreator("5kcrm"); //创建人
-		$objProps->setLastModifiedBy("5kcrm"); //最后修改人
-		$objProps->setTitle("5kcrm"); //标题
-		$objProps->setSubject("5kcrm data"); //题目
-		$objProps->setDescription("5kcrm data"); //描述
-		$objProps->setKeywords("5kcrm data"); //关键字
-		$objProps->setCategory("5kcrm"); //种类
+		$objProps->setCreator("lycrm"); //创建人
+		$objProps->setLastModifiedBy("lycrm"); //最后修改人
+		$objProps->setTitle("lycrm"); //标题
+		$objProps->setSubject("lycrm data"); //题目
+		$objProps->setDescription("lycrm data"); //描述
+		$objProps->setKeywords("lycrm data"); //关键字
+		$objProps->setCategory("lycrm"); //种类
 		$objPHPExcel->setActiveSheetIndex(0); //设置当前的sheet
 		$objActSheet = $objPHPExcel->getActiveSheet();
-		$objActSheet->setTitle('悟空软件导入模板'.date('Y-m-d',time())); //设置sheet的标题	
+		$objActSheet->setTitle('蓝云科技导入模板'.date('Y-m-d',time())); //设置sheet的标题
 
 		//存储Excel数据源到其他工作薄
 		$objPHPExcel->createSheet();
@@ -172,7 +171,7 @@ class Excel extends Common
 			case 'crm_bbusiness' : $types_name = '商机信息'; break;
 			case 'crm_contract' : $types_name = '合同信息'; break;
 			case 'crm_receivables' : $types_name = '回款信息'; break;
-			default : $types_name = '悟空软件'; break;
+			default : $types_name = '蓝云科技'; break;
 		}		
         $content = $types_name.'（*代表必填项）';
         $objActSheet->setCellValue('A1', $content);
@@ -192,8 +191,9 @@ class Excel extends Common
 	 * @param $callback 回调函数，查询需要导出的数据
 	 * @author
 	 **/
-	public function exportCsv($file_name, $field_list, callback $callback)
+	public function exportCsv($file_name, $field_list, $callback=[])
 	{
+
 		$fieldModel = new \app\admin\model\Field();
 		ini_set('memory_limit','256M');
 	    set_time_limit (0);
@@ -248,6 +248,7 @@ class Excel extends Common
 	 */		
 	public function importExcel($file, $param)
 	{
+
 		$get_filesize_byte = get_upload_max_filesize_byte();
 		$config = $param['config'] ? : '';
 		if (!empty($file)) {

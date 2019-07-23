@@ -2,8 +2,7 @@
 // +----------------------------------------------------------------------
 // | Description: 安装
 // +----------------------------------------------------------------------
-// | Author:  Michael_xu | gengxiaoxu@5kcrm.com 
-// +----------------------------------------------------------------------
+
 
 namespace app\admin\controller;
 
@@ -38,7 +37,7 @@ class Install extends Controller
         }    
     }
 
-    private $upgrade_site = "http://message.72crm.com/";
+    private $upgrade_site = "http://www.zhlanyun.com/";
 
     /**
      * [index 安装步骤]
@@ -51,7 +50,7 @@ class Install extends Controller
             echo "<meta http-equiv='content-type' content='text/html; charset=UTF-8'> <script>alert('请勿重复安装!');location.href='".$_SERVER["HTTP_HOST"]."';</script>";
             die();     
         }
-        if (!file_exists(getcwd() . "/public/sql/5kcrm.sql")) {
+        if (!file_exists(getcwd() . "/public/sql/lycrm.sql")) {
             echo "<meta http-equiv='content-type' content='text/html; charset=UTF-8'> <script>alert('缺少必要的数据库文件!');location.href='".$_SERVER["HTTP_HOST"]."';</script>";
             die();     
         }         
@@ -99,7 +98,7 @@ class Install extends Controller
         if (file_exists(CONF_PATH . "install.lock")) {
             return resultArray(['error' => '请勿重复安装!']);       
         } 
-        if (!file_exists(getcwd() . "/public/sql/5kcrm.sql")) {
+        if (!file_exists(getcwd() . "/public/sql/lycrm.sql")) {
             return resultArray(['error' => '缺少必要的数据库文件!']);      
         } 
         $temp = $this->param;
@@ -162,8 +161,8 @@ class Install extends Controller
 		$db_config['database'] = $database;
         self::mkDatabase($db_config);
         $C_Patch = substr($_SERVER['SCRIPT_FILENAME'],0,-10);
-        $sql = file_get_contents( $C_Patch.'/public/sql/5kcrm.sql');
-        $sqlList = parse_sql($sql, 0, ['5kcrm_' => $db_config['prefix']]);
+        $sql = file_get_contents( $C_Patch.'/public/sql/lycrm.sql');
+        $sqlList = parse_sql($sql, 0, ['lycrm_' => $db_config['prefix']]);
         if ($sqlList) {
             $sqlList = array_filter($sqlList);
             $install_count = count($sqlList);

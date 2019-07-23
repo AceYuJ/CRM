@@ -2,8 +2,6 @@
 // +----------------------------------------------------------------------
 // | Description: 产品
 // +----------------------------------------------------------------------
-// | Author: Michael_xu | gengxiaoxu@5kcrm.com 
-// +----------------------------------------------------------------------
 
 namespace app\crm\controller;
 
@@ -174,7 +172,7 @@ class Product extends ApiCommon
         $fieldModel = new \app\admin\model\Field();
         $field_list = $fieldModel->getIndexFieldList('crm_product', $userInfo['id']);
         // 文件名
-        $file_name = '5kcrm_product_'.date('Ymd');
+        $file_name = 'product_'.date('Ymd');
         $param['pageType'] = 'all'; 
         $excelModel->exportCsv($file_name, $field_list, function($page) use ($param){
             $list = model('Product')->getDataList($param);

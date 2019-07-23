@@ -2,8 +2,7 @@
 // +----------------------------------------------------------------------
 // | Description: 商机
 // +----------------------------------------------------------------------
-// | Author:  Michael_xu | gengxiaoxu@5kcrm.com
-// +----------------------------------------------------------------------
+
 namespace app\crm\model;
 
 use think\Db;
@@ -38,9 +37,11 @@ class Business extends Common
 		$search = $request['search'];
     	$user_id = $request['user_id'];
     	$scene_id = (int)$request['scene_id'];
+    	$contacts_id = $request['contacts_id'];
 		unset($request['scene_id']);
 		unset($request['search']);
-		unset($request['user_id']);    	
+		unset($request['user_id']);
+		unset($request['contacts_id']);    	
 
         $request = $this->fmtRequest( $request );
         $requestMap = $request['map'] ? : [];
@@ -58,8 +59,13 @@ class Business extends Common
 		}
 		if (isset($requestMap['type_id'])) {
 			$requestMap['type_id']['value'] = $requestMap['type_id']['type_id'];
-			if ($requestMap['type_id']['status_id']) $requestMap['type_id']['value'] = $requestMap['type_id']['status_id'];
+			if ($requestMap['type_id']['status_id']) $requestMap['status_id']['value'] = $requestMap['type_id']['status_id'];
 		}
+		if ($sceneMap['type_id']) {
+			$requestMap['type_id']['value'] = $sceneMap['type_id']['type_id'];
+			if ($sceneMap['type_id']['status_id']) $requestMap['status_id']['value'] = $sceneMap['type_id']['status_id'];
+			unset($sceneMap['type_id']);
+		}		
 		$partMap = [];
 		//优先级：普通筛选>高级筛选>场景
 		if ($sceneMap['ro_user_id'] && $sceneMap['rw_user_id']) {
@@ -98,6 +104,15 @@ class Business extends Common
 			        	->whereOr('business.ro_user_id',array('like','%,'.$authMapData['user_id'].',%'))
 			        	->whereOr('business.rw_user_id',array('like','%,'.$authMapData['user_id'].',%'));
 			    };
+		    }
+		}
+		//联系人商机
+		if ($contacts_id) {
+			$business_id = Db::name('crm_contacts_business')->where(['contacts_id' => $contacts_id])->column('business_id');
+			if ($business_id) {
+		    	$map['business.business_id'] = array('in',$business_id);
+		    }else{
+		    	$map['business.business_id'] = array('eq',-1);
 		    }
 		}
 		//列表展示字段
@@ -336,9 +351,10 @@ class Business extends Common
             $start_time = $between_time[0];
             $end_time = $between_time[1];
         }else{
-        	$start_time = strtotime($request['start_time']);
-			$end_time = strtotime($request['end_time']);
+        	$start_time = $request['start_time'];
+			$end_time = $request['end_time'];
         }
+        
 		$create_time = [];
 		if ($start_time && $end_time) {
 			$where['create_time'] = array('between',array($start_time,$end_time));

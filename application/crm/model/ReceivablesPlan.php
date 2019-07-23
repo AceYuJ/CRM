@@ -2,8 +2,6 @@
 // +----------------------------------------------------------------------
 // | Description: 回款计划计划
 // +----------------------------------------------------------------------
-// | Author:  Michael_xu | gengxiaoxu@5kcrm.com
-// +----------------------------------------------------------------------
 namespace app\crm\model;
 
 use think\Db;
@@ -182,7 +180,7 @@ class ReceivablesPlan extends Common
 			],
 			'1' => [
 				'field' => 'contract_id',
-				'name' => '合同编号',
+				'name' => '合同名称',
 				'form_type' => 'contract',
 				'setting' => []
 			],	

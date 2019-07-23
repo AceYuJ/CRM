@@ -2,8 +2,6 @@
 // +----------------------------------------------------------------------
 // | Description: 日程
 // +----------------------------------------------------------------------
-// | Author:  Michael_xu | gengxiaoxu@5kcrm.com
-// +----------------------------------------------------------------------
 namespace app\oa\model;
 
 use think\Db;
@@ -88,11 +86,7 @@ class Event extends Common
 	        $permission['is_delete'] = $is_delete;
 	        $event_date[$k]['permission']	= $permission;
 		}
-		$count = Db::name('OaEvent')->where($where)->count();
-        $data = [];
-		$data['dataCount'] = $count;
-        $data['list'] = $event_date;
-        return $data;
+        return $event_date ? : [];
     }
 
 	/**
@@ -249,9 +243,7 @@ class Event extends Common
 		$ContractModel = new \app\crm\model\Contract();
 		$CustomerModel = new \app\crm\model\Customer();
 
-		$ownerlist = $userModel->getDataByStr($dataInfo['owner_user_ids']);
-	    $dataInfo['ownerList'] = $ownerList;
-		
+	    $dataInfo['ownerList'] = $userModel->getDataByStr($dataInfo['owner_user_ids']);
 		$relation = Db::name('OaEventRelation')->where('event_id ='.$id)->find();
 		$dataInfo['businessList'] = $relation['business_ids']?$BusinessModel->getDataByStr($relation['business_ids']):''; //商机
 		$dataInfo['contactsList'] = $relation['contacts_ids']?$ContactsModel->getDataByStr($relation['contacts_ids']):''; //联系人

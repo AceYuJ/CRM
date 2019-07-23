@@ -2,8 +2,6 @@
 // +----------------------------------------------------------------------
 // | Description: CRM工作台
 // +----------------------------------------------------------------------
-// | Author: Michael_xu | gengxiaoxu@5kcrm.com 
-// +----------------------------------------------------------------------
 
 namespace app\crm\controller;
 
@@ -344,6 +342,7 @@ class Index extends ApiCommon
         $datas['list'] = $list;
         $datas['totlaContractMoney'] = $totlaContractMoney ? : '0.00';
         $datas['totlaReceivablesMoney'] = $totlaReceivablesMoney ? : '0.00';
+
         return resultArray(['data' => $datas]);
     }
 

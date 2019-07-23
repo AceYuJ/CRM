@@ -2,8 +2,6 @@
 // +----------------------------------------------------------------------
 // | Description: 联系人
 // +----------------------------------------------------------------------
-// | Author: Michael_xu | gengxiaoxu@5kcrm.com
-// +----------------------------------------------------------------------
 
 namespace app\crm\controller;
 
@@ -284,8 +282,14 @@ class Contacts extends ApiCommon
         $fieldModel = new \app\admin\model\Field();
         $field_list = $fieldModel->getIndexFieldList('crm_contacts', $userInfo['id']);
         // 文件名
-        $file_name = '5kcrm_contacts_'.date('Ymd');
-        $param['pageType'] = 'all'; 
+        $file_name = 'contacts_'.date('Ymd');
+        $param['pageType'] = 'all';
+//        $collback = function($page) use ($param){
+////            $list = model('Contacts')->getDataList($param);
+////            return $list;
+////        };
+////        $collback=['collback'=>$collback];
+////        $excelModel->exportCsv($file_name, $field_list, $collback);
         $excelModel->exportCsv($file_name, $field_list, function($page) use ($param){
             $list = model('Contacts')->getDataList($param);
             return $list;
