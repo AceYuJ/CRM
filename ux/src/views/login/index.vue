@@ -11,7 +11,7 @@
               <el-form ref="loginForm"
                 :model="loginForm"
                 :rules="loginRules"
-                class="login-form"
+                class="login-form form--login"
                 auto-complete="on"
                 label-position="left"
                 status-icon>
@@ -51,7 +51,7 @@
               <el-form ref="registerForm"
                 :model="registerForm"
                 :rules="registerRules"
-                class="login-form"
+                class="login-form form--register"
                 auto-complete="on"
                 label-position="left"
                 status-icon>
@@ -371,12 +371,13 @@ export default {
     display: flex;
     padding: 30px;
     @media screen and (max-height: 700px){
-      min-width: 50%;
-      height: 450px;
-      padding-top: 15px;
+      min-width: 70%;
+      height: 480px;
+      padding-top: 10px;
     }
     @media screen and (max-width: 1200px){
-      height: 450px;
+      height: 500px;
+      padding-top: 18px;
     }
     @media screen and (max-width: 700px){
       min-width: 630px;
@@ -390,8 +391,8 @@ export default {
         .wrapper__container__left__logo__img {
           background: url(./../.././assets/img/loginLogo.jpg) no-repeat;
           background-size: 100% 100%;
-          width: 38%;
-          height: 6.5rem;
+          width: 36%;
+          height: 7.5rem;
           margin: 0 auto;
           @media screen and (max-width:1200px){
             height: 6rem;
@@ -407,6 +408,14 @@ export default {
             height: 30rem;
             transform: scale(0.9);
             margin: 0 auto;
+            @media screen and (max-height:700px){
+              height: 20rem;
+              width: 74%;
+            }
+            @media screen and (max-width:1200px){
+              height: 22rem;
+              width: 82%;
+            }
           }
       }
     }
@@ -414,7 +423,7 @@ export default {
     .wrapper__container__right{
       flex: 3;
       min-width: 273px;
-      padding-top: 1rem;
+      padding-top: 3rem;
       /deep/ .el-tabs{
         width:70%;
         .el-tabs__item:hover,.el-tabs__item.is-active,.el-tabs__item{
@@ -491,12 +500,23 @@ export default {
     width:50%;
     margin-left: .5rem;
     height: 34px;
-    margin-top: 2px;
+    margin-top: 7px;
     border-width: 0;
     color: #ccc;
   }
 }
-
+/deep/ .form--login .el-form-item__content{
+    line-height: 68px;
+}
+/deep/ .form--register .el-form-item__content{
+    line-height: 50px;
+    @media screen and (max-height: 700px){
+      line-height: 36px;
+    }
+    @media screen and (max-width: 1200px){
+      line-height: 38px;
+    }
+}
 /deep/ .el-form-item__content {
   @media screen and (max-width:1200px){
     line-height: 32px;
@@ -507,7 +527,7 @@ export default {
 }
 
 /deep/ .item-msg > .el-form-item__content {
-  display:flex
+  display: flex
 }
 
 /deep/ .el-form-item__error {
