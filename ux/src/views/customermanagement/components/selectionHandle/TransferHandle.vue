@@ -56,6 +56,9 @@ import { crmBusinessTransfer } from '@/api/customermanagement/business'
 import { crmContractTransfer } from '@/api/customermanagement/contract'
 import { crmLeadsTransfer } from '@/api/customermanagement/clue'
 
+import { mapGetters } from 'vuex'
+import { objDeepCopy } from '@/utils'
+
 export default {
   /** 客户管理 的 勾选后的 转移 操作*/
   name: 'transfer-handle',
@@ -111,7 +114,8 @@ export default {
         return false
       }
       return true
-    }
+    },
+    ...mapGetters(['change','messageNum','currentType'])
   },
   mounted() {
     this.visible = this.dialogVisible
@@ -163,7 +167,30 @@ export default {
     },
     getParams() {
       var owner_user_id = this.usersList[0].id
-
+      var currentObj=JSON.parse(localStorage.getItem('userInfoId'))
+      if(currentObj.data!=owner_user_id)
+      {
+        let copyNum = objDeepCopy(this.messageNum)
+            let num = parseInt(copyNum[this.currentType]) - 1
+            copyNum[this.currentType] = num > 0 ? num : 0
+            this.$store.commit('SET_MESSAGENUM', copyNum)
+            if(this.change)
+            {
+              this.$store.dispatch('setChangeFalse')
+            }
+            else{
+              this.$store.dispatch('setChangeTrue')
+            }
+      }
+      else{
+         if(this.change)
+            {
+              this.$store.dispatch('setChangeFalse')
+            }
+            else{
+              this.$store.dispatch('setChangeTrue')
+            }
+      }
       var params = {
         owner_user_id: owner_user_id,
         is_remove: this.removeType

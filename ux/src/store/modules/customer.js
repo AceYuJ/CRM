@@ -17,7 +17,9 @@ const app = {
       remindReceivablesPlan: 0,
       endContract: 0,
       totalNum: 0
-    }
+    },
+    change:false,
+    currentType:""
   },
 
   mutations: {
@@ -33,6 +35,15 @@ const app = {
       }
       messageNum.totalNum = totalNum
       state.messageNum = messageNum
+    },
+    SET_CHANGE_TRUE(state){
+      state.change=true
+    },
+    SET_CHANGE_FALSE(state){
+      state.change=false
+    },
+    SET_TYPE(state,type){
+      state.currentType=type
     }
   },
 
@@ -53,6 +64,12 @@ const app = {
             reject(error)
           })
       })
+    },
+    setChangeTrue(context){
+      context.commit("SET_CHANGE_TRUE")
+    },
+    setChangeFalse(context){
+      context.commit("SET_CHANGE_FALSE")
     }
 
   }

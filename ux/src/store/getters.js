@@ -29,7 +29,8 @@ const getters = {
   //客户管理信息
   messageNum: state => state.customer.messageNum,
   messageOANum: state => state.oa.messageOANum,
-
+  change:state=>state.customer.change,
+  currentType:state=>state.customer.currentType
 }
 /**
  * 使用说明

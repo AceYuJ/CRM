@@ -50,7 +50,7 @@ export default {
     CRMCreateView
   },
   computed: {
-    ...mapGetters(['crm', 'crmRouters']),
+    ...mapGetters(['crm', 'crmRouters','messageNum']),
     // 快捷添加
     quickAddList() {
       var addItems = []
@@ -110,6 +110,13 @@ export default {
       return Math.round(this.quickAddList.length / 2) * 25
     }
   },
+  watch: {
+    /** 变化就刷新数据 */
+    messageNum() {
+      this.getcrmMessagNum()
+    }
+  },
+
   data() {
     return {
       isCreate: false,

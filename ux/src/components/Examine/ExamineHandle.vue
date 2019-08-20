@@ -53,6 +53,9 @@ import {
 } from '@/api/oamanagement/examine'
 import { XhUserCell } from '@/components/CreateCom'
 
+import { mapGetters } from 'vuex'
+import { objDeepCopy } from '@/utils'
+
 export default {
   name: 'examine-handle', // 合同审核操作
   components: {
@@ -79,7 +82,8 @@ export default {
         return '请输入撤回理由（必填）'
       }
       return ''
-    }
+    },
+    ...mapGetters(['change','messageNum'])
   },
   watch: {
     show: {
@@ -205,6 +209,17 @@ export default {
         this.hiddenView()
       } else if (type == 'confirm') {
         this.submitInfo()
+         let copyNum = objDeepCopy(this.messageNum)
+            let num = parseInt(copyNum[this.currentType]) - 1
+            copyNum[this.currentType] = num > 0 ? num : 0
+            this.$store.commit('SET_MESSAGENUM', copyNum)
+            if(this.change)
+            {
+              this.$store.dispatch('setChangeFalse')
+            }
+            else{
+              this.$store.dispatch('setChangeTrue')
+            }
       }
     },
     /** 选择了下一审批人 */

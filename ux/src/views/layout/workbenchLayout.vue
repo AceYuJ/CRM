@@ -55,6 +55,12 @@ export default {
     ExamineCategorySelect,
     ExamineCreateView
   },
+  watch: {
+    /** 变化就刷新数据 */
+    messageOANum() {
+      this.getOAMessagNum()
+    }
+  },
   data() {
     return {
       addDialog: false,

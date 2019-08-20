@@ -69,6 +69,9 @@ import ScheduleLog from '../../components/followLog/ScheduleLog' // 日程日志
 import { crmRecordSave, crmRecordIndex } from '@/api/customermanagement/common'
 import { formatTimeToTimestamp } from '@/utils'
 
+import { mapGetters } from 'vuex'
+import { objDeepCopy } from '@/utils'
+
 export default {
   /** 客户管理 的 客户详情 的 跟进记录*/
   name: 'customer-follow',
@@ -135,7 +138,8 @@ export default {
         return 'ScheduleLog'
       }
       return ''
-    }
+    },
+    ...mapGetters(['currentType','messageNum','change'])
   },
   mounted() {},
   activated: function() {},
@@ -151,6 +155,17 @@ export default {
     /** 告诉mixad 返回数据 */
     sendInfo() {
       this.$refs.mixadd.$emit('submit-info')
+      let copyNum = objDeepCopy(this.messageNum)
+            let num = parseInt(copyNum[this.currentType]) - 1
+            copyNum[this.currentType] = num > 0 ? num : 0
+            this.$store.commit('SET_MESSAGENUM', copyNum)
+            if(this.change)
+            {
+              this.$store.dispatch('setChangeFalse')
+            }
+            else{
+              this.$store.dispatch('setChangeTrue')
+            }
     },
     /** 快捷添加框内 返回的数据用于上传 */
     submitInfo(data) {

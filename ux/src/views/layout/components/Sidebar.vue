@@ -146,7 +146,7 @@ export default {
       default: '#3E84E9'
     }
   },
-  mounted() {},
+  mounted() {console.log(this.items)},
   methods: {
     toggleSideBarClick() {
       this.collapse = !this.collapse

@@ -139,7 +139,7 @@ import message_table from '../mixins/message_table'
 import filterForm from '@/views/customermanagement/components/filterForm'
 import filterContent from '@/views/customermanagement/components/filterForm/filterContent'
 import CRMAllDetail from '@/views/customermanagement/components/CRMAllDetail'
-
+import { mapGetters } from 'vuex'
 export default {
   /** 客户管理 的待审核系统 */
   name: 'c-r-m-message',
@@ -155,6 +155,10 @@ export default {
   watch: {
     show() {
       this.initTableHead()
+    },
+    change(){
+      this.refreshList()
+      this.showDview=false
     }
   },
 
@@ -263,7 +267,8 @@ export default {
       }
 
       return []
-    }
+    },
+    ...mapGetters(['change'])
   },
 
   mounted() {

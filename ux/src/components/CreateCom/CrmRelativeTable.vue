@@ -30,7 +30,7 @@
               ref="relativeTable"
               :data="list"
               v-loading="loading"
-              :height="250"
+              max-height="250"
               stripe
               border
               highlight-current-row

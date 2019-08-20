@@ -71,6 +71,8 @@ import { crmProductStatus } from '@/api/customermanagement/product'
 import TransferHandle from './selectionHandle/TransferHandle' // 转移
 import AllocHandle from './selectionHandle/AllocHandle' // 公海分配操作
 
+import { objDeepCopy } from '@/utils'
+
 export default {
   name: 'c-r-m-detail-head',
   components: {
@@ -78,7 +80,7 @@ export default {
     AllocHandle
   },
   computed: {
-    ...mapGetters(['crm']),
+    ...mapGetters(['crm','change','messageNum','currentType']),
     crmIcon() {
       if (this.crmType === 'customer') {
         return require('@/assets/img/customer_detail.png')
@@ -201,6 +203,8 @@ export default {
               type: 'info',
               message: '已取消操作'
             })
+            
+            
           })
       } else if (type == 'alloc') {
         // 公海分配操作
@@ -231,6 +235,17 @@ export default {
               message: res.data
             })
             this.$emit('handle', { type: type })
+            let copyNum = objDeepCopy(this.messageNum)
+            let num = parseInt(copyNum[this.currentType]) - 1
+            copyNum[this.currentType] = num > 0 ? num : 0
+            this.$store.commit('SET_MESSAGENUM', copyNum)
+            if(this.change)
+            {
+              this.$store.dispatch('setChangeFalse')
+            }
+            else{
+              this.$store.dispatch('setChangeTrue')
+            }
           })
           .catch(() => {})
       } else if (type === 'transform') {
@@ -282,6 +297,17 @@ export default {
               message: res.data
             })
             this.$emit('handle', { type: type })
+            let copyNum = objDeepCopy(this.messageNum)
+            let num = parseInt(copyNum[this.currentType]) - 1
+            copyNum[this.currentType] = num > 0 ? num : 0
+            this.$store.commit('SET_MESSAGENUM', copyNum)
+            if(this.change)
+            {
+              this.$store.dispatch('setChangeFalse')
+            }
+            else{
+              this.$store.dispatch('setChangeTrue')
+            }
           })
           .catch(() => {})
       } else if (type === 'get') {
@@ -295,6 +321,17 @@ export default {
               message: res.data
             })
             this.$emit('handle', { type: type })
+             let copyNum = objDeepCopy(this.messageNum)
+            let num = parseInt(copyNum['followCustomer']) + 1
+            copyNum['followCustomer'] = num > 0 ? num : 0
+            this.$store.commit('SET_MESSAGENUM', copyNum)
+            if(this.change)
+            {
+              this.$store.dispatch('setChangeFalse')
+            }
+            else{
+              this.$store.dispatch('setChangeTrue')
+            }
           })
           .catch(() => {})
       }

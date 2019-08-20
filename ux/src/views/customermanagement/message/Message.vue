@@ -152,6 +152,7 @@ export default {
      */
     sideClick(item) {
       this.leftType = item.infoType
+      this.$store.commit('SET_TYPE',item.infoType)
     }
   }
 }

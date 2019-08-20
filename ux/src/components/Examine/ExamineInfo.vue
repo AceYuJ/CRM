@@ -105,7 +105,6 @@ import { crmExamineFlowStepList } from '@/api/customermanagement/common' // 审�
 import Nzhcn from 'nzh/cn'
 import ExamineHandle from './ExamineHandle' // 审批操作理由
 import CheckFlow from './CheckFlow' // 审批流程
-
 // 审核信息 config 1 固定 0 自选
 export default {
   name: 'examine-info', // 合同审核操作
@@ -258,6 +257,7 @@ export default {
     examineHandleClick(data) {
       this.getFlowStepList()
       this.$emit('on-handle', data)
+
     }
   }
 }
