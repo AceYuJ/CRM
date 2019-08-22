@@ -5,7 +5,7 @@
                   effect="dark"
                   :content="infoTips"
                   placement="top">
-        <i class="wukong wukong-help_tips"></i>>
+        <i class="lanyun lanyun-help_tips"></i>
       </el-tooltip>
     </div>
     <div class="option-bar">

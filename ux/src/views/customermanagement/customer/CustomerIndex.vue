@@ -42,7 +42,7 @@
                          width="38">
           <template slot="header"
                     slot-scope="slot">
-            <i class="wukong wukong-business"
+            <i class="lanyun lanyun-business"
                :style="{ 'color': '#2486E4'}"
                style="cursor: not-allowed; opacity: 0.5;"></i>
           </template>
@@ -60,7 +60,7 @@
               </business-check>
               <i slot="reference"
                  @click="businessCheckClick($event, scope)"
-                 class="wukong wukong-business"
+                 class="lanyun lanyun-business"
                  style="color: '#2486E4'"
                  :style="{'opacity' :scope.row.business_count > 0 ? 1 : 0}"></i>
             </el-popover>
@@ -87,7 +87,7 @@
           <template slot-scope="scope">
             <div v-if="scope.row.pool_day != -1">{{scope.row.pool_day}}</div>
             <i v-else
-               class="wukong wukong-lock customer-lock"></i>
+               class="lanyun lanyun-lock customer-lock"></i>
           </template>
         </el-table-column>
         <el-table-column>

@@ -116,9 +116,9 @@
           <p class="reply-title">
             <span v-html="emoji(discussItem.content)"></span>
             <i @click="discussBtn(discussItem, -1)"
-               class="wukong wukong-log-reply log-handle"></i>
+               class="lanyun lanyun-log-reply log-handle"></i>
             <i @click="discussDelete(discussItem, data.replyList, k)"
-               class="wukong wukong-log-delete log-handle"></i>
+               class="lanyun lanyun-log-delete log-handle"></i>
           </p>
 
           <p class="discuss-content"
@@ -141,9 +141,9 @@
                   <span class="reply">@{{childDiscussItem.replyuserInfo.realname}}：</span>
                 </template>
                 <span v-html="emoji(childDiscussItem.content)"></span>
-                <i class="wukong wukong-log-reply log-handle"
+                <i class="lanyun lanyun-log-reply log-handle"
                    @click="discussBtn(discussItem, k)"></i>
-                <i class="wukong wukong-log-delete log-handle"
+                <i class="lanyun lanyun-log-delete log-handle"
                    @click="discussDelete(childDiscussItem, discussItem.replyList, k)"></i>
               </p>
             </div>
@@ -182,7 +182,7 @@
       </div>
     </div>
     <div class="footer">
-      <i class="wukong wukong-log-reply log-handle"
+      <i class="lanyun lanyun-log-reply log-handle"
          @click="commentBtn(data)"></i>
     </div>
     <!-- 底部评论 -->
@@ -765,7 +765,7 @@ export default {
   }
 }
 
-.wukong {
+.lanyun {
   cursor: pointer;
 }
 </style>

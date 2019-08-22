@@ -1,7 +1,7 @@
 <template>
   <flexbox class="cell">
-    <i class="cell-head wukong"
-       :class="'wukong-' + type"></i>
+    <i class="cell-head lanyun"
+       :class="'lanyun-' + type"></i>
     <div class="cell-body"
          :class="{'cursor-pointer' :cursorPointer}"
          @click="bodyClick">

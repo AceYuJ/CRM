@@ -29,7 +29,7 @@
           <span class="bg-color"
                 v-if="subtasksDataText && subtasksDataText != 0">{{subtasksDataText | moment("MM-DD")}}</span>
           <i v-else
-             class="wukong wukong-time-task"
+             class="lanyun lanyun-time-task"
              @click="subtasksDateFun"></i>
         </div>
         <!-- 选择负责人 -->
@@ -60,7 +60,7 @@
               </span>
             </template>
             <i v-else
-               class="wukong wukong-user"></i>
+               class="lanyun lanyun-user"></i>
           </div>
         </el-popover>
       </flexbox>
@@ -254,7 +254,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.wukong {
+.lanyun {
   color: #666;
 }
 .subtasks-content {
@@ -308,7 +308,7 @@ export default {
       .bg-color {
         padding: 2px 10px;
       }
-      .wukong-time-task {
+      .lanyun-time-task {
         margin-right: 10px;
         cursor: pointer;
         vertical-align: middle;
@@ -321,7 +321,7 @@ export default {
         height: 24px;
         border-radius: 12px;
       }
-      .wukong-user {
+      .lanyun-user {
         margin-right: 10px;
         cursor: pointer;
         vertical-align: middle;

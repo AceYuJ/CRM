@@ -215,7 +215,7 @@ export default {
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
-  .wukong {
+  .lanyun {
     vertical-align: middle;
   }
   .select-box {

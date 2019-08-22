@@ -2,7 +2,7 @@
   <flexbox class="reminder-wrapper">
     <flexbox align="stretch"
              class="reminder-body">
-      <i class="wukong wukong-reminder reminder-icon"></i>
+      <i class="lanyun lanyun-reminder reminder-icon"></i>
       <div class="reminder-content"
            :style="{'font-size': fontSize + 'px'}">
         {{content}}

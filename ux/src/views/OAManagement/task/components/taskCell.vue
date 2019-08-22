@@ -63,27 +63,27 @@
       <div class="img-group">
         <div class="img-box"
              v-if="data.relationCount">
-          <i class="wukong wukong-relevance"></i>
+          <i class="lanyun lanyun-relevance"></i>
           <span>{{data.relationCount}}</span>
         </div>
         <div class="img-box"
              v-if="data.subcount + data.subdonecount != 0">
-          <i class="wukong wukong-sub-task"></i>
+          <i class="lanyun lanyun-sub-task"></i>
           <span>{{data.subdonecount}}/{{data.subcount + data.subdonecount}}</span>
         </div>
         <div class="img-box"
              v-if="data.filecount">
-          <i class="wukong wukong-file"></i>
+          <i class="lanyun lanyun-file"></i>
           <span>{{data.filecount}}</span>
         </div>
         <div class="img-box"
              v-if="data.commentcount">
-          <i class="wukong wukong-comment-task"></i>
+          <i class="lanyun lanyun-comment-task"></i>
           <span>{{data.commentcount}}</span>
         </div>
         <div class="img-box"
              v-if="data.stop_time">
-          <i class="wukong wukong-time-task"
+          <i class="lanyun lanyun-time-task"
              :style="{'color': data.is_end == 1 && !data.checked ? 'red': '#999'}"></i>
           <span :style="{'color': data.is_end == 1 && !data.checked ? 'red': '#999'}">{{data.stop_time | moment("MM-DD")}} 截止</span>
         </div>

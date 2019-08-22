@@ -18,7 +18,7 @@
                    v-html="item.tips">
               </div>
               <i v-if="item.showTips"
-                 class="wukong wukong-help_tips"></i>
+                 class="lanyun lanyun-help_tips"></i>
             </el-tooltip>
           </div>
           <el-input v-model="item.value"
@@ -274,12 +274,12 @@ export default {
 }
 
 // 提示标志
-.wukong-help_tips {
+.lanyun-help_tips {
   color: #999;
   font-size: 12px;
 }
 
-.wukong-help_tips:hover {
+.lanyun-help_tips:hover {
   color: $xr-color-primary;
 }
 

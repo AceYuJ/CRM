@@ -7,6 +7,16 @@
   url('iconfont.svg?t=1562917792087#iconfont') format('svg'); /* iOS 4.1- */
 }
 
+@font-face {
+  font-family: 'lanyun';  /* project id 1364142 */
+  src: url('//at.alicdn.com/t/font_1364142_x4arecd8a9.eot');
+  src: url('//at.alicdn.com/t/font_1364142_x4arecd8a9.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1364142_x4arecd8a9.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1364142_x4arecd8a9.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1364142_x4arecd8a9.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1364142_x4arecd8a9.svg#lanyun') format('svg');
+}
+
 .lanyun {
   font-family: "lanyun" !important;
   font-size: 16px;
@@ -155,3 +165,157 @@
   content: "\e647";
 }
 
+
+
+
+.lanyun-icon-phone:before {
+  content: "\e63f";
+}
+
+.lanyun-business:before {
+  content: "\e622";
+}
+
+.lanyun-examine-category-leave:before {
+  content: "\e606";
+}
+
+.lanyun-contacts:before {
+  content: "\e60a";
+}
+
+.lanyun-edit-task:before {
+  content: "\e6cf";
+}
+
+.lanyun-user:before {
+  content: "\e64a";
+}
+
+.lanyun-log-reply:before {
+  content: "\e635";
+}
+
+.lanyun-examine-category-business:before {
+  content: "\e62a";
+}
+
+.lanyun-customer:before {
+  content: "\e618";
+}
+
+.lanyun-lightning:before {
+  content: "\e624";
+}
+
+.lanyun-examine-category-ordinary:before {
+  content: "\e665";
+}
+
+.lanyun-contract:before {
+  content: "\e64e";
+}
+
+.lanyun-examine-category-billing:before {
+  content: "\e619";
+}
+
+.lanyun-relevance:before {
+  content: "\e704";
+}
+
+.lanyun-comment-task:before {
+  content: "\e601";
+}
+
+.lanyun-sub-task:before {
+  content: "\e648";
+}
+
+.lanyun-examine-category-overtime:before {
+  content: "\e620";
+}
+
+.lanyun-help_tips:before {
+  content: "\e600";
+}
+
+.lanyun-reminder:before {
+  content: "\e603";
+}
+
+.lanyun-time-task:before {
+  content: "\e61b";
+}
+
+.lanyun-file:before {
+  content: "\e63d";
+}
+
+.lanyun-log-delete:before {
+  content: "\e63a";
+}
+
+.lanyun-delete-task:before {
+  content: "\e602";
+}
+
+.lanyun-lock:before {
+  content: "\e62d";
+}
+
+.lanyun-examine-category-borrowing:before {
+  content: "\e734";
+}
+
+.lanyun-activity-task:before {
+  content: "\e666";
+}
+
+.lanyun-label:before {
+  content: "\e62c";
+}
+
+.lanyun-addition-task:before {
+  content: "\e84f";
+}
+
+.lanyun-black-label:before {
+  content: "\e639";
+}
+
+.lanyun-examine-category-one:before {
+  content: "\e60b";
+}
+
+.lanyun-examine-category-two:before {
+  content: "\e60c";
+}
+
+.lanyun-examine-category-three:before {
+  content: "\e60d";
+}
+
+.lanyun-examine-category-four:before {
+  content: "\e60e";
+}
+
+.lanyun-examine-category-five:before {
+  content: "\e60f";
+}
+
+.lanyun-examine-category-six:before {
+  content: "\e610";
+}
+
+.lanyun-examine-category-seven:before {
+  content: "\e611";
+}
+
+.lanyun-examine-category-eight:before {
+  content: "\e612";
+}
+
+.lanyun-examine-category-nine:before {
+  content: "\e613";
+}

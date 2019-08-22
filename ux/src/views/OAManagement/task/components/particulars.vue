@@ -22,7 +22,7 @@
                 </p>
               </div>
               <span slot="reference">
-                <i class="wukong wukong-lightning"></i>
+                <i class="lanyun lanyun-lightning"></i>
                 <span>优先级</span>
               </span>
             </el-popover>
@@ -31,14 +31,14 @@
             <tag-index :placement="'bottom'"
                        :taskData="taskData">
               <div slot="editIndex">
-                <i class="wukong wukong-label"></i>
+                <i class="lanyun lanyun-label"></i>
                 <span>标签</span>
               </div>
             </tag-index>
           </div>
           <div @click="addSubtasksBtn"
                v-if="taskData.pid == 0">
-            <i class="wukong wukong-sub-task"></i>
+            <i class="lanyun lanyun-sub-task"></i>
             <span>子任务</span>
           </div>
           <div>
@@ -47,7 +47,7 @@
                        multiple
                        :http-request="httpRequest"
                        list-type="picture">
-              <i class="wukong wukong-file"></i>
+              <i class="lanyun lanyun-file"></i>
               <span>附件</span>
             </el-upload>
           </div>
@@ -128,7 +128,7 @@
                                radio
                                @changeCheckout="editMainUser">
                       </xh-user>
-                      <i class="wukong wukong-addition-task"
+                      <i class="lanyun lanyun-addition-task"
                          slot="reference"></i>
                     </el-popover>
                   </template>
@@ -211,7 +211,7 @@
             <div class="card-content-row card-content-row-column">
               <flexbox>
                 <div class="color-label participant">
-                  <i class="wukong wukong-user"></i>
+                  <i class="lanyun lanyun-user"></i>
                   <span>参与人： </span>
                 </div>
                 <div class="participant-class"
@@ -240,13 +240,13 @@
                              :userCheckedData="taskData.owner_list"
                              @popoverSubmit="editOwnerList">
                   <i slot="membersDep"
-                     class="wukong wukong-addition-task"></i>
+                     class="lanyun lanyun-addition-task"></i>
                 </members-dep>
               </flexbox>
             </div>
             <div class="card-content-row card-content-row-column margin-bottom-30">
               <span class="color-label participant">
-                <i class="wukong wukong-relevance"></i>
+                <i class="lanyun lanyun-relevance"></i>
                 <span>关联业务</span>
               </span>
               <!-- 关联业务 -->
@@ -262,7 +262,7 @@
                  v-if="taskData.pid == 0">
               <div class="display-flex sub-task margin-bottom-7">
                 <span class="color-label participant">
-                  <i class="wukong wukong-sub-task"></i>
+                  <i class="lanyun lanyun-sub-task"></i>
                   <span>子任务</span>
                 </span>
                 <template v-if="taskData.subTaskList.length != 0">
@@ -290,9 +290,9 @@
                           class="item-name">{{item.name}}</span>
                     <!-- 编辑和删除 -->
                     <div class="edit-del-box">
-                      <i class="wukong wukong-edit-task"
+                      <i class="lanyun lanyun-edit-task"
                          @click="editSubTask(item)"></i>
-                      <i class="wukong wukong-delete-task"
+                      <i class="lanyun lanyun-delete-task"
                          @click="deleteSubTask(item)"></i>
                     </div>
                     <div class="rt">
@@ -334,7 +334,7 @@
             <div class="card-content-row card-content-row-column"
                  v-if="fileList.length != 0">
               <span class="color-label participant class-file">
-                <i class="wukong wukong-file"></i>
+                <i class="lanyun lanyun-file"></i>
                 <span>附件</span>
               </span>
               <div class="accessory-box">
@@ -354,20 +354,20 @@
         <div class="card-footers">
           <div class="footer-title">
             <span @click="footerTitle(0)">
-              <i class="wukong wukong-comment-task"
+              <i class="lanyun lanyun-comment-task"
                  style="color: #3E84E9;"
                  v-if="isComment"></i>
-              <i class="wukong wukong-comment-task"
+              <i class="lanyun lanyun-comment-task"
                  v-else></i>
               <span class="cursor-pointer"
                     :style="{'color': isComment ? '#3E84E9' : '#666'}">评论</span>
             </span>
             <span class="title-border"></span>
             <span @click="footerTitle(1)">
-              <i class="wukong wukong-activity-task"
+              <i class="lanyun lanyun-activity-task"
                  style="font-size: 18px;"
                  v-if="isComment"></i>
-              <i class="wukong wukong-activity-task"
+              <i class="lanyun lanyun-activity-task"
                  style="color: #3E84E9; font-size: 18px;"
                  v-else></i>
               <span class="cursor-pointer"
@@ -1246,7 +1246,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.wukong {
+.lanyun {
   vertical-align: middle;
   color: #666;
 }
@@ -1372,7 +1372,7 @@ export default {
       }
     }
 
-    .wukong {
+    .lanyun {
       color: #999;
     }
   }
@@ -1481,7 +1481,7 @@ export default {
                 right: -5px;
               }
             }
-            .wukong-addition-task {
+            .lanyun-addition-task {
               cursor: pointer;
             }
 
@@ -1699,11 +1699,11 @@ export default {
             display: inline-block;
             padding-left: 10px;
             opacity: 0;
-            .wukong {
+            .lanyun {
               padding-left: 10px;
               cursor: pointer;
             }
-            .wukong:hover {
+            .lanyun:hover {
               color: #3e84e9;
             }
           }

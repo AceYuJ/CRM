@@ -12,7 +12,7 @@
              :key="index"
              class="category-item"
              @click="selectCategorys(item)">
-          <i class="wukong"
+          <i class="lanyun"
              :class="item.iconClass"></i>
           {{item.title}}
         </div>
@@ -83,25 +83,25 @@ export default {
       categoryId = parseInt(categoryId)
       if (categoryId <= 6) {
         return [
-          'wukong-examine-category-ordinary',
-          'wukong-examine-category-leave',
-          'wukong-examine-category-business',
-          'wukong-examine-category-overtime',
-          'wukong-examine-category-billing',
-          'wukong-examine-category-borrowing'
+          'lanyun-examine-category-ordinary',
+          'lanyun-examine-category-leave',
+          'lanyun-examine-category-business',
+          'lanyun-examine-category-overtime',
+          'lanyun-examine-category-billing',
+          'lanyun-examine-category-borrowing'
         ][categoryId - 1]
       } else {
         console.log('object---', categoryId % 9)
         return [
-          'wukong-examine-category-one',
-          'wukong-examine-category-two',
-          'wukong-examine-category-three',
-          'wukong-examine-category-four',
-          'wukong-examine-category-five',
-          'wukong-examine-category-six',
-          'wukong-examine-category-seven',
-          'wukong-examine-category-eight',
-          'wukong-examine-category-nine'
+          'lanyun-examine-category-one',
+          'lanyun-examine-category-two',
+          'lanyun-examine-category-three',
+          'lanyun-examine-category-four',
+          'lanyun-examine-category-five',
+          'lanyun-examine-category-six',
+          'lanyun-examine-category-seven',
+          'lanyun-examine-category-eight',
+          'lanyun-examine-category-nine'
         ][categoryId % 9]
       }
     }
@@ -130,7 +130,7 @@ export default {
     margin: 5px 7px;
     cursor: pointer;
 
-    .wukong {
+    .lanyun {
       color: $xr-color-primary;
       margin-right: 2px;
     }

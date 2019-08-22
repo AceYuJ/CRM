@@ -21,7 +21,7 @@
                :key="index"
                class="tag-list"
                @click="tagBtn(item, particularsTagList)">
-            <i class="wukong wukong-black-label"
+            <i class="lanyun lanyun-black-label"
                :style="{ 'color': item.color}"></i>
             <span class="item-label">{{item.name}}</span>
             <span class="el-icon-check rt"

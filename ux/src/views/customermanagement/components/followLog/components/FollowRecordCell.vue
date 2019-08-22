@@ -62,7 +62,7 @@
                    v-for="(item, index) in item.dataInfo.contactsList"
                    @click.native="checkRelationDetail('contacts', item.contacts_id)"
                    :key="index">
-            <i class="wukong wukong-contacts cell-head crm-type"
+            <i class="lanyun lanyun-contacts cell-head crm-type"
                :style="{'opacity': index == 0 ? 1 : 0}"></i>
             <div class="cell-body"
                  style="color: #6394E5;cursor: pointer;">{{item.name}}</div>
@@ -77,7 +77,7 @@
                    v-for="(item, index) in item.dataInfo.businessList"
                    @click.native="checkRelationDetail('business', item.business_id)"
                    :key="index">
-            <i class="wukong wukong-business cell-head crm-type"
+            <i class="lanyun lanyun-business cell-head crm-type"
                :style="{'opacity': index == 0 ? 1 : 0}"></i>
             <div class="cell-body"
                  style="color: #6394E5;cursor: pointer;">{{item.name}}</div>
