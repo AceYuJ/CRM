@@ -10,7 +10,7 @@
       <div class="content-title">签约合同数：{{data.count_zong}}个；签约合同金额：{{data.money_zong}}元；回款金额：{{data.back_zong}}元；未收款金额：{{data.w_back_zong}}元</div>
       <div class="table-content">
         <el-table :data="list"
-                  :height="tableHeight"
+                  max-height="tableHeight"
                   stripe
                   border
                   highlight-current-row>
