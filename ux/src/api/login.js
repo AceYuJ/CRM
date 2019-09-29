@@ -7,17 +7,13 @@ export function getCompany() {
   })
 }
 
-export function login(company,username, password) {
+export function login(username, password) {
   return request({
     url: 'admin/base/login',
     method: 'post',
     data: {
       username,
       password
-    },
-    headers:{
-      "Type":"login",
-      "Dbname":company
     },
     timeout:3000
   })

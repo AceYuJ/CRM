@@ -67,7 +67,7 @@ const user = {
     }, userInfo) {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
-        login(userInfo.value,username, userInfo.password).then(response => {
+        login(username, userInfo.password).then(response => {
           console.log('进入')
           const data = response.data
           Lockr.set('authKey', data.authKey)
@@ -75,7 +75,7 @@ const user = {
           Lockr.set('userInfoId', data.userInfo.id)
           Lockr.set('loginUserInfo', data.userInfo)
           Lockr.set('authList', data.authList)
-          addAuth(data.authKey, data.sessionId, userInfo.value)
+          addAuth(data.authKey, data.sessionId)
           commit('SET_USERINFO', data.userInfo)
           // 权限
 

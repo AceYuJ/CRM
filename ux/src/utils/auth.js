@@ -15,11 +15,11 @@ export function removeAuth() {
 }
 
 /** 注入授权信息和数据库名称 */
-export function addAuth(authKey, sessionId, dbname) {
+export function addAuth(authKey, sessionId) {
   return new Promise((resolve, reject) => {
     axios.defaults.headers.authKey = authKey
     axios.defaults.headers.sessionId = sessionId
-    axios.defaults.headers.Dbname = dbname
+    // axios.defaults.headers.Dbname = dbname
     resolve(true)
   })
 }

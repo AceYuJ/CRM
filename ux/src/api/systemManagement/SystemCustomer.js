@@ -10,7 +10,7 @@ export function businessGroupList(data) {
 
 export function businessGroupAdd(data) {
   return request({
-    url: 'crm/business_status/save',
+    url: 'lycrm1.0/business_status/save',
     method: 'post',
     data: data
   })

@@ -73,7 +73,7 @@ const customerRouter = {
       component: () => import('@/views/customermanagement/seas/SeasIndex'),
       meta: {
         requiresAuth: true,
-        title: '公海',
+        title: '学员池',
         icon: 'gonghaiguanli',
         index: 2,
         type: 'crm',
@@ -86,7 +86,7 @@ const customerRouter = {
       component: () => import('@/views/customermanagement/business/BusinessIndex'),
       meta: {
         requiresAuth: true,
-        title: '商机',
+        title: '课程表',
         icon: 'shangji',
         index: 1,
         type: 'crm',

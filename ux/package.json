@@ -12,7 +12,9 @@
     "test": "npm run lint"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.6.0",
     "axios": "0.18.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "babel-polyfill": "^6.26.0",
     "chartjs": "^0.3.24",
     "echarts": "^4.2.0-rc.2",

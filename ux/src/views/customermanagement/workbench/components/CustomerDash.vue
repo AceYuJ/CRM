@@ -1,13 +1,12 @@
 <template>
-  <div style="margin-bottom:20px;min-width: 1600px;">
+  <div style="margin-bottom:20px;min-width: 800px;" class="container">
     <flexbox class="mark-header"><span>销售简报</span></flexbox>
     <flexbox :gutter="0"
              wrap="wrap">
              <flexbox-item v-loading="jianbaoLoading"
                     :span="1"
                     style="padding-right:10px;padding-bottom:20px;">
-              <div class="card"
-                  style="height: 130px;">
+              <div class="card jianbao">
                 <flexbox :gutter="0"
                         wrap="wrap">
                   <flexbox-item :span="1/7"
@@ -34,8 +33,7 @@
       <flexbox-item v-loading="gaugeLoading"
                     :span="1/3"
                     style="padding-right:10px;padding-bottom:20px;">
-        <div class="card mark"
-             style="height: 220px;">
+        <div class="card mark">
           <div class="mark-target">
             <flexbox class="mark-header">业绩指标</flexbox>
             <div class="value">{{gaugeData.achievementMoney}}元</div>
@@ -58,7 +56,7 @@
           <flexbox-item v-loading="gaugeLoading"
                       :span="1/2"
                       style="padding-right:10px;">
-            <div class="card" style="margin-top:20px;height:200px">
+            <div class="card contract" style="margin-top:20px;">
               <div class="card-top">
                 <div class="card-left">
                   <div>本月合同金额</div>
@@ -77,7 +75,7 @@
           <flexbox-item v-loading="gaugeLoading"
                       :span="1/2"
                       style="padding-left:10px;">
-            <div class="card" style="margin-top:20px;height:200px">
+            <div class="card receive" style="margin-top:20px;">
               <div class="card-top">
                 <div class="card-left">
                   <div>本月回款金额</div>
@@ -98,8 +96,7 @@
       <flexbox-item v-loading="trendLoading"
                     :span="2/3"
                     style="padding:0 10px;padding-bottom:20px;">
-        <div class="card"
-             style="height: 440px;">
+        <div class="card trend">
           <flexbox class="mark-header">销售趋势</flexbox>
           <div class="mark-gauge-main"
               id="gaugeTrend"></div>
@@ -111,7 +108,7 @@
       <flexbox-item v-loading="funnelLoading"
                       :span="1/2"
                       style="padding-right:35px;padding-bottom:20px;">
-          <div class="card funnel-container" style="height: 220px;">
+          <div class="card funnel-container">
               <div class="funnel-left">
                 <flexbox class="mark-header">成交概况</flexbox>
                 <div class="funnel-left-bottom">
@@ -135,11 +132,11 @@
       <flexbox-item v-loading="funnelLoading"
                       :span="1/2"
                       style="padding:0 10px 20px 0;">
-          <div class="card funnel-container" style="height: 220px;">
+          <div class="card funnel-container loudou">
               <div class="funnel-left">
                 <flexbox class="mark-header">销售漏斗</flexbox>
                 <div class="funnel-left-bottom funnel-other">
-                    <canvas class="funnel-canvas-validate" width="120" height="150" id="funnel_validate" style="margin-left:50px"> </canvas>
+                    <canvas class="funnel-canvas-validate" :width="width" :height="height" id="funnel_validate" style="margin-left:50px;"> </canvas>
                     <canvas class="funnel-canvas-need" width="120" height="150" id="funnel_need"> </canvas>
                     <canvas class="funnel-canvas-plan" width="120" height="150" id="funnel_plan"> </canvas>
                     <canvas class="funnel-canvas-negotiation" width="120" height="150" id="funnel_negotiation"> </canvas>
@@ -177,6 +174,8 @@ export default {
   name: 'customer-dash',
   data() {
     return {
+      width:120,
+      height:150,
       /** 销售简报 */
       jianbaoLoading: false,
       jianbaoItems: [
@@ -290,6 +289,14 @@ export default {
     this.initFunnel()
     this.initAxis()
     this.initGain()
+    const _this=this
+    //todo：监视窗口变化，改变canvas值，重新绘画
+    window.onresize=function(){
+      var dom=document.getElementsByClassName('funnel-other')[0]
+       _this.width=dom.scrollWidth
+      console.log(_this.width)
+      _this.height=dom.width
+    }
     if (this.data.users.length > 0 || this.data.users.strucs > 0) {
       this.getCrmIndexIndex()
       this.getBusinessStatusList()
@@ -544,16 +551,20 @@ export default {
       }
       
       gaugeChart.setOption(optionMain, true)
+      
       this.gaugeOption = optionMain
       this.gaugeChart = gaugeChart
+      window.onresize=()=>{ this.gaugeChart.resize();};
 
       gaugeContract.setOption(optionContract, true)
       this.contractOption = optionContract
       this.contractChart = gaugeContract
+      window.onresize=()=>{ this.contractChart.resize();};
 
       gaugeReceive.setOption(optionReceive, true)
       this.receiveOption = optionReceive
       this.receiveChart = gaugeReceive
+      window.onresize=()=>{ this.receiveChart.resize();};
     },
     getCurrentMonthSaletrend(){
       this.curtrendLoading = true
@@ -660,6 +671,7 @@ export default {
       funnelGain.setOption(optionGain, true)
       this.gainOption = optionGain
       this.gainChart = funnelGain
+      window.onresize=()=>{ this.gainChart.resize();};
     },
     /** 销售漏斗 */
     getBusinessStatusList() {
@@ -741,7 +753,6 @@ export default {
       */
       let canvas_validate = document.querySelector(".funnel-canvas-validate")
       let ctx_validate = canvas_validate.getContext("2d")
-      
       // 验证阶段
       ctx_validate.beginPath()
       ctx_validate.moveTo(0,0)            //moveTo()起始位置
@@ -871,7 +882,6 @@ export default {
       funnelPie.setOption(optionPie, true)
       this.pieOption = optionPie
       this.pieChart = funnelPie
-
     },
     /** 销售趋势 */
     getCrmIndexSaletrend() {
@@ -896,6 +906,7 @@ export default {
           this.axisOption.series[1].data = receivablesList
 
           this.axisChart.setOption(this.axisOption, true)
+          window.onresize=()=>{ this.axisChart.resize();};
           this.trendLoading = false
         })
         .catch(() => {
@@ -1010,6 +1021,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.container{
+  box-sizing: border-box;
+  font-size: 0.875rem;
+}
+.jianbao{
+  height: 130px;
+}
+.contract{
+    height: 200px;
+}
+.receive{
+    height: 200px;
+}
+.trend{
+  height: 440px;
+}
 .card {
   position: relative;
   border: 1px solid #e6e6e6;
@@ -1022,7 +1049,6 @@ export default {
     width:100%;
     height:380px;
   }
-
   .card-top {
     margin-top: 10px;
     display: flex;
@@ -1065,7 +1091,8 @@ export default {
 }
 
 .mark-header {
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   font-size: 13px;
   &:first-of-type{
     span::before {
@@ -1085,6 +1112,7 @@ export default {
 
 .mark{
   display: flex;
+  height: 220px;
   // justify-content: space-around;
   .mark-target{
     margin-top: 15px;
@@ -1143,6 +1171,7 @@ export default {
       width:1px;
       position:absolute;
       right:-18px;
+      // right: -1.130rem;
       top: 0;
     }
 
@@ -1245,9 +1274,14 @@ export default {
   height:140px;
 }
 
+.loudou{
+  height: 220px;
+}
+
 .funnel-container {
   display: flex;
   padding-top: 20px;
+  height: 220px;
   .funnel-left {
     flex: 2;
     border-right: 1px solid #ccc;
@@ -1352,6 +1386,101 @@ export default {
   #axismain {
     width: 100%;
     height: 250px;
+  }
+}
+
+@media screen and (max-width: 1500px){
+  .jianbao{
+    height: 100px;
+  }
+  
+  .jianbao-icon-content{
+     padding: 4px 4px;
+    .jianbao-icon{
+      width: 48px;
+    }
+    .jianbao-div{
+      min-width: 50px;
+      .jianbao-title {
+        font-size: 0.75rem;
+        margin: 8px 0px 0 0;
+      }
+      .jianbao-value {
+        font-size: 1.2rem;
+        flex: 1;
+      }
+    }
+  }
+  .mark-gauge{
+    width:320px;
+    height: 180px;
+    margin-top: 10px;
+  }
+  .mark-gauge-line{
+    width: 100%;
+    height: 140px;
+  }
+  .mark-gauge-bar{
+    width:100%;
+    height:120px;
+  }
+  .card{
+    .mark-gauge-main{
+      width:100%;
+      height:330px;
+    }
+  }
+  .mark{
+    height: 180px;
+    .mark-target{
+      margin-top: 10px;
+      .value{
+        font-size: 1rem;
+      }
+    }
+  }
+  .mark-header{
+    font-size: 0.75rem;
+  }
+  .contract{
+    height: 170px;
+    .card-top{
+      font-size:0.75rem;
+      .card-right{
+        font-size: 1.30rem;
+      }
+    }
+  }
+  .receive{
+    height: 170px;
+    .card-top{
+      font-size:0.75rem;
+      .card-right{
+        font-size: 1.30rem;
+      }
+    }
+  }
+  .trend{
+    height: 370px;
+  }
+  .funnel-container{
+    height: 210px;
+    .funnel-left{
+      margin-right: 20px;
+      .funnel-left-bottom{
+        padding-right: 25px;
+        margin-top: 40px;
+      }
+    }
+    .funnel-right{
+      .funnel-pie{
+        width: 100%;
+        height: 140px;
+      }
+    }
+  }
+  .loudou{
+    height: 210px;
   }
 }
 </style>
